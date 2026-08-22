@@ -1,0 +1,17 @@
+iMersWAStore Frontend Sync - 2026-08-22
+
+- Sinkron role manager_keuangan dengan backend terbaru.
+- Manager Keuangan: Dashboard, Pesanan read-only, Inventory read-only, Finance/Accounting.
+- Admin tetap full access; Kasir tetap Dashboard/Pesanan/POS.
+- Manajemen Staf mendukung Kasir dan Manager Keuangan.
+- Menghapus field Expired At yang tidak tersedia di backend Users terbaru.
+- HPP/Gross Profit ditampilkan untuk Admin dan Manager Keuangan.
+- Inventory mutation buttons hanya untuk Admin.
+- Dashboard initial API calls diparalelkan agar lebih cepat.
+- Inventory/Finance diload saat dibuka (lazy loading).
+- Cache katalog sessionStorage untuk reuse branding/artikel.
+- Login branding menghindari request berulang dan redirect dipercepat.
+- Beberapa gambar menggunakan lazy loading/async decoding.
+- JavaScript syntax checked dengan Node.js.
+
+Catatan: SCRIPT_URL dipertahankan sesuai file yang diberikan user.

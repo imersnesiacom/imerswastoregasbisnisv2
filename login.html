@@ -52,7 +52,7 @@
             <form id="loginForm" class="space-y-5">
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">Username</label>
-                    <input type="text" id="username" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" placeholder="Masukkan username admin/kasir">
+                    <input type="text" id="username" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" placeholder="Masukkan username">
                 </div>
                 <div>
                     <div class="flex justify-between items-center mb-1">
@@ -71,9 +71,9 @@
             <!-- FORM LUPA PASSWORD -->
             <form id="forgotForm" class="space-y-5 hidden">
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Email atau No WhatsApp</label>
-                    <input type="text" id="resetTarget" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" placeholder="email@anda.com / 628123...">
-                    <p class="text-[10px] text-slate-500 mt-1">Sistem akan mengirimkan password baru ke kontak Anda.</p>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Terdaftar</label>
+                    <input type="text" id="resetTarget" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" placeholder="email@anda.com">
+                    <p class="text-[10px] text-slate-500 mt-1">Sistem akan mengirim password sementara ke email terdaftar.</p>
                 </div>
                 
                 <button type="submit" id="btnForgot" class="w-full flex justify-center items-center py-3 px-4 rounded-xl text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md">
@@ -93,12 +93,35 @@
         lucide.createIcons();
 
         // DEPLOY URL BARU
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyZYM9hFo84CEaN9fzkAKOISWKgyEk6y0X-jdCzKNURobCb9AJ6pW9cr4fatVXg1i4/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbway6bycE4ZMZNzjAxK14FWDJ3iFYOucMkof3mWg745-0_a8zKpWxZdw3yg3T6B5g6kbg/exec';
 
         // ==========================================
         // MENGAMBIL LOGO & NAMA TOKO (BUNGLON)
         // ==========================================
+        let brandingLoaded = false;
+        function applyStoreBranding(store) {
+            if (!store) return;
+            brandingLoaded = true;
+            document.title = `Masuk - ${store.nama_toko}`;
+            document.getElementById('formTitle').innerText = `Masuk ke ${store.nama_toko}`;
+            if (store.logo) {
+                const logoContainer = document.getElementById('brandLogoContainer');
+                logoContainer.innerHTML = `<img src="${store.logo}" class="w-full h-full object-cover">`;
+                logoContainer.classList.remove('bg-slate-50');
+                logoContainer.classList.add('bg-white');
+            }
+        }
+
         function loadStoreBranding() {
+            if (brandingLoaded) return;
+            try {
+                const cached = JSON.parse(sessionStorage.getItem('iMersWA_CatalogCache') || 'null');
+                if (cached && cached.data?.store && (Date.now() - Number(cached.ts || 0) < 300000)) {
+                    applyStoreBranding(cached.data.store);
+                    return;
+                }
+            } catch(e) {}
+
             let fd = new FormData();
             fd.append('action', 'get_store_catalog'); // Tarik info dari Single Store
             
@@ -106,17 +129,8 @@
                 .then(res => res.json())
                 .then(res => {
                     if (res.success && res.store) {
-                        const store = res.store;
-                        
-                        document.title = `Masuk - ${store.nama_toko}`;
-                        document.getElementById('formTitle').innerText = `Masuk ke ${store.nama_toko}`;
-                        
-                        if (store.logo) {
-                            const logoContainer = document.getElementById('brandLogoContainer');
-                            logoContainer.innerHTML = `<img src="${store.logo}" class="w-full h-full object-cover">`;
-                            logoContainer.classList.remove('bg-slate-50');
-                            logoContainer.classList.add('bg-white');
-                        }
+                        applyStoreBranding(res.store);
+                        try { sessionStorage.setItem('iMersWA_CatalogCache', JSON.stringify({ ts: Date.now(), data: res })); } catch(e) {}
                     }
                 })
                 .catch(err => console.error("Gagal memuat branding toko:", err));
@@ -184,7 +198,7 @@
                 .then(res => {
                     if (res.success) {
                         showAlert(res.message, true);
-                        localStorage.setItem('iMersWA_User', JSON.stringify(res.data));
+                        localStorage.setItem('iMersWA_User', JSON.stringify({ ...res.data, status: res.data.status || 'approved' }));
                         
                         setTimeout(() => { 
                             if (window.location.protocol !== 'blob:' && window.location.protocol !== 'data:' && window.self === window.top) {
@@ -194,7 +208,7 @@
                                 btnText.innerText = "Masuk Sekarang";
                                 btnLoader.classList.add('hidden');
                             }
-                        }, 1000);
+                        }, 120);
                     } else {
                         showAlert(res.message, false);
                         btnLogin.disabled = false;
@@ -229,7 +243,7 @@
             
             const formData = new FormData();
             formData.append('action', 'forgot_password');
-            formData.append('email_or_wa', document.getElementById('resetTarget').value);
+            formData.append('email', document.getElementById('resetTarget').value.trim());
 
             fetch(SCRIPT_URL, { method: 'POST', body: formData })
                 .then(res => res.json())

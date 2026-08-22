@@ -79,6 +79,7 @@
                 }
             } else {
                 currentUser = JSON.parse(userSession);
+                if (currentUser && !currentUser.status) currentUser.status = 'approved';
             }
         } catch (e) {
             console.error("Error cek sesi:", e);
@@ -87,7 +88,7 @@
         // =========================================================================
         // URL WEB APP GOOGLE APPS SCRIPT (DEPLOYS SCRIPT KLIEN)
         // =========================================================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyZYM9hFo84CEaN9fzkAKOISWKgyEk6y0X-jdCzKNURobCb9AJ6pW9cr4fatVXg1i4/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbway6bycE4ZMZNzjAxK14FWDJ3iFYOucMkof3mWg745-0_a8zKpWxZdw3yg3T6B5g6kbg/exec';
     </script>
 
     <!-- Mobile Sidebar Overlay -->
@@ -250,7 +251,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="usersTableBody">
-                            <tr><td colspan="4" class="p-8 text-center text-slate-400">Menyiapkan data toko...</td></tr>
+                            <tr><td colspan="4" class="p-8 text-center text-slate-400">Loading data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -261,7 +262,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-5 sm:p-6 rounded-xl border border-slate-200 shadow-sm gap-4">
                     <div>
                         <h2 class="text-lg sm:text-xl font-bold text-slate-800">Katalog Produk</h2>
-                        <p class="text-xs sm:text-sm text-slate-500">Kelola daftar produk, varian (warna/size), harga, dan stok Anda.</p>
+                        <p class="text-xs sm:text-sm text-slate-500">Kelola produk, varian, harga jual, HPP, margin, dan stok bisnis Anda.</p>
                     </div>
                     <button onclick="openProductModal()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors flex justify-center items-center gap-2">
                         <i data-lucide="plus" class="w-4 h-4"></i> Tambah Produk
@@ -272,13 +273,15 @@
                         <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
                             <tr>
                                 <th class="px-4 sm:px-6 py-4">Produk & Kategori</th>
-                                <th class="px-4 sm:px-6 py-4">Harga</th>
+                                <th class="px-4 sm:px-6 py-4">Harga Jual</th>
+                                <th class="px-4 sm:px-6 py-4">HPP</th>
+                                <th class="px-4 sm:px-6 py-4">Margin</th>
                                 <th class="px-4 sm:px-6 py-4">Stok / Varian</th>
                                 <th class="px-4 sm:px-6 py-4 text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="productTableBody">
-                            <tr><td colspan="4" class="p-8 text-center text-slate-400">Menyiapkan data toko...</td></tr>
+                            <tr><td colspan="6" class="p-8 text-center text-slate-400">Loading data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -306,7 +309,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="categoryTableBody">
-                            <tr><td colspan="4" class="p-8 text-center text-slate-400">Menyiapkan data toko...</td></tr>
+                            <tr><td colspan="4" class="p-8 text-center text-slate-400">Loading data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -335,7 +338,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="couponTableBody">
-                            <tr><td colspan="5" class="p-8 text-center text-slate-400">Menyiapkan data toko...</td></tr>
+                            <tr><td colspan="5" class="p-8 text-center text-slate-400">Loading data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -362,7 +365,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="shippingTableBody">
-                            <tr><td colspan="3" class="p-8 text-center text-slate-400">Menyiapkan data toko...</td></tr>
+                            <tr><td colspan="3" class="p-8 text-center text-slate-400">Loading data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -390,7 +393,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="articleTableBody">
-                            <tr><td colspan="4" class="p-8 text-center text-slate-400">Menyiapkan data toko...</td></tr>
+                            <tr><td colspan="4" class="p-8 text-center text-slate-400">Loading data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -415,7 +418,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100" id="orderTableBody">
-                            <tr><td colspan="6" class="p-8 text-center text-slate-400">Menyiapkan data toko...</td></tr>
+                            <tr><td colspan="6" class="p-8 text-center text-slate-400">Loading data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -454,6 +457,141 @@
                             <button onclick="openCheckoutModal()" class="w-full py-3.5 bg-slate-900 text-white font-bold rounded-lg hover:bg-slate-800 shadow-lg flex justify-center items-center gap-2 transition-all">
                                 <i data-lucide="arrow-right-circle" class="w-5 h-5"></i> Lanjut Pembayaran
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: INVENTORY BISNIS -->
+            <div id="view-inventory" class="view-section hidden max-w-7xl mx-auto space-y-6 pb-10">
+                <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1"><span class="px-2 py-1 rounded-md text-[10px] font-black bg-cyan-50 text-cyan-700">INVENTORY</span><span class="text-[10px] font-semibold text-slate-400">Moving Average HPP</span></div>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-800">Inventory & Nilai Persediaan</h2>
+                        <p class="text-xs sm:text-sm text-slate-500">Kelola stok masuk, penyesuaian, stock opname, reservasi order, dan kartu stok per produk/varian.</p>
+                    </div>
+                    <button onclick="fetchInventoryData(true)" class="px-4 py-2.5 rounded-lg bg-slate-900 text-white text-xs font-bold flex items-center justify-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4"></i> Refresh Inventory</button>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[10px] font-bold text-slate-400 uppercase">Item / Varian</div><div id="invStatItems" class="text-xl font-black text-slate-800 mt-1">0</div></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[10px] font-bold text-slate-400 uppercase">Stok Fisik</div><div id="invStatPhysical" class="text-xl font-black text-blue-600 mt-1">0</div></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[10px] font-bold text-slate-400 uppercase">Stok Reserved</div><div id="invStatReserved" class="text-xl font-black text-amber-600 mt-1">0</div></div>
+                    <div class="bg-gradient-to-br from-violet-600 to-indigo-600 p-4 rounded-xl shadow-sm text-white"><div class="text-[10px] font-bold text-white/70 uppercase">Nilai Persediaan</div><div id="invStatValue" class="text-xl font-black mt-1">Rp 0</div></div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="flex gap-2 p-3 border-b border-slate-100 overflow-x-auto">
+                        <button id="invTabBtn-summary" onclick="setInventoryTab('summary')" class="inventory-tab-btn px-4 py-2 rounded-lg text-xs font-bold bg-cyan-50 text-cyan-700 whitespace-nowrap">Ringkasan Stok</button>
+                        <button id="invTabBtn-movements" onclick="setInventoryTab('movements')" class="inventory-tab-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Kartu Stok / Pergerakan</button>
+                    </div>
+
+                    <div id="inventory-tab-summary" class="inventory-tab-panel p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+                            <div class="relative w-full sm:max-w-sm"><i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i><input id="inventorySearch" oninput="renderInventorySummary()" placeholder="Cari produk, SKU, atau varian..." class="w-full pl-9 pr-3 py-2.5 border border-slate-200 rounded-lg text-sm"></div>
+                            <div class="text-[10px] text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">HPP akan berubah otomatis saat <b>Stok Masuk</b> menggunakan metode Moving Average.</div>
+                        </div>
+                        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="bg-slate-50 text-slate-500 text-[10px] uppercase"><tr><th class="px-4 py-3">Produk / Varian</th><th class="px-4 py-3">SKU</th><th class="px-4 py-3 text-right">Fisik</th><th class="px-4 py-3 text-right">Reserved</th><th class="px-4 py-3 text-right">Tersedia</th><th class="px-4 py-3 text-right">HPP</th><th class="px-4 py-3 text-right">Nilai</th><th class="px-4 py-3 text-right">Aksi</th></tr></thead>
+                                <tbody id="inventoryTableBody" class="divide-y divide-slate-100"><tr><td colspan="8" class="p-8 text-center text-slate-400">Buka menu Inventory untuk memuat data.</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="inventory-tab-movements" class="inventory-tab-panel hidden p-4 sm:p-5 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                            <select id="inventoryMovementItem" class="px-3 py-2.5 border border-slate-200 rounded-lg text-sm bg-white"><option value="">Semua Produk / Varian</option></select>
+                            <input type="date" id="inventoryMovementStart" class="px-3 py-2.5 border border-slate-200 rounded-lg text-sm">
+                            <input type="date" id="inventoryMovementEnd" class="px-3 py-2.5 border border-slate-200 rounded-lg text-sm">
+                            <button onclick="loadInventoryMovements()" class="px-4 py-2.5 bg-cyan-600 text-white rounded-lg text-xs font-bold">Tampilkan Pergerakan</button>
+                        </div>
+                        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="bg-slate-50 text-slate-500 text-[10px] uppercase"><tr><th class="px-4 py-3">Tanggal</th><th class="px-4 py-3">Produk</th><th class="px-4 py-3">Tipe</th><th class="px-4 py-3 text-right">Masuk</th><th class="px-4 py-3 text-right">Keluar</th><th class="px-4 py-3 text-right">Stok</th><th class="px-4 py-3 text-right">HPP</th><th class="px-4 py-3">Sumber / Catatan</th></tr></thead>
+                                <tbody id="inventoryMovementBody" class="divide-y divide-slate-100"><tr><td colspan="8" class="p-8 text-center text-slate-400">Belum dimuat.</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: KEUANGAN & AKUNTANSI -->
+            <div id="view-finance" class="view-section hidden max-w-7xl mx-auto space-y-6 pb-10">
+                <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col xl:flex-row xl:items-end justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1"><span class="px-2 py-1 rounded-md text-[10px] font-black bg-violet-50 text-violet-700">ACCOUNTING</span><span class="text-[10px] font-semibold text-slate-400">Double-entry Journal</span></div>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-800">Keuangan & Akuntansi</h2>
+                        <p class="text-xs sm:text-sm text-slate-500">Pendapatan dari penjualan, HPP dari barang terjual, pengeluaran, jurnal, COA dinamis, dan laporan keuangan.</p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-[1fr_1fr_auto] gap-2 w-full xl:w-auto">
+                        <input type="date" id="financeStartDate" class="px-3 py-2.5 border border-slate-200 rounded-lg text-xs">
+                        <input type="date" id="financeEndDate" class="px-3 py-2.5 border border-slate-200 rounded-lg text-xs">
+                        <button onclick="refreshFinancePeriod()" class="col-span-2 sm:col-span-1 px-4 py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-lg text-xs font-bold">Terapkan Periode</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[9px] font-bold text-slate-400 uppercase">Pendapatan Bersih</div><div id="finNetRevenue" class="text-lg font-black text-emerald-600 mt-1">Rp 0</div></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[9px] font-bold text-slate-400 uppercase">HPP</div><div id="finCogs" class="text-lg font-black text-amber-600 mt-1">Rp 0</div></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[9px] font-bold text-slate-400 uppercase">Laba Kotor</div><div id="finGrossProfit" class="text-lg font-black text-blue-600 mt-1">Rp 0</div></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[9px] font-bold text-slate-400 uppercase">Beban</div><div id="finExpenses" class="text-lg font-black text-rose-600 mt-1">Rp 0</div></div>
+                    <div class="bg-gradient-to-br from-violet-600 to-indigo-600 p-4 rounded-xl shadow-sm text-white"><div class="text-[9px] font-bold text-white/70 uppercase">Laba Bersih</div><div id="finNetProfit" class="text-lg font-black mt-1">Rp 0</div></div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-[9px] font-bold text-slate-400 uppercase">Persediaan</div><div id="finInventoryValue" class="text-lg font-black text-slate-800 mt-1">Rp 0</div></div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="p-3 border-b border-slate-100 flex gap-2 overflow-x-auto">
+                        <button id="financeTabBtn-summary" onclick="setFinanceTab('summary')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold bg-violet-50 text-violet-700 whitespace-nowrap">Ringkasan</button>
+                        <button id="financeTabBtn-expenses" onclick="setFinanceTab('expenses')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Pengeluaran</button>
+                        <button id="financeTabBtn-journals" onclick="setFinanceTab('journals')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Jurnal Umum</button>
+                        <button id="financeTabBtn-profitloss" onclick="setFinanceTab('profitloss')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Laba Rugi</button>
+                        <button id="financeTabBtn-trialbalance" onclick="setFinanceTab('trialbalance')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Neraca Saldo</button>
+                        <button id="financeTabBtn-ledger" onclick="setFinanceTab('ledger')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Buku Besar</button>
+                        <button id="financeTabBtn-coa" onclick="setFinanceTab('coa')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Chart of Account</button>
+                        <button id="financeTabBtn-settings" onclick="setFinanceTab('settings')" class="finance-tab-btn px-3 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50 whitespace-nowrap">Pengaturan</button>
+                    </div>
+
+                    <div id="finance-tab-summary" class="finance-tab-panel p-5 sm:p-6">
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="rounded-xl border border-emerald-100 bg-emerald-50 p-4"><div class="text-xs font-black text-emerald-800">Penjualan → Jurnal Otomatis</div><p class="text-[11px] text-emerald-700 mt-2 leading-relaxed">Order berstatus Selesai otomatis mendebit kas/bank, mengkredit penjualan, serta mem-posting HPP dan pengurangan persediaan.</p></div>
+                            <div class="rounded-xl border border-cyan-100 bg-cyan-50 p-4"><div class="text-xs font-black text-cyan-800">Inventory → Moving Average</div><p class="text-[11px] text-cyan-700 mt-2 leading-relaxed">Stok masuk memperbarui HPP rata-rata dan membentuk jurnal persediaan terhadap akun sumber pembayaran yang dipilih.</p></div>
+                            <div class="rounded-xl border border-violet-100 bg-violet-50 p-4"><div class="text-xs font-black text-violet-800">Laporan → Dari Ledger</div><p class="text-[11px] text-violet-700 mt-2 leading-relaxed">Laba Rugi, Neraca Saldo, dan Buku Besar membaca jurnal posted sehingga angka tidak dihitung ulang dari tampilan order.</p></div>
+                        </div>
+                    </div>
+
+                    <div id="finance-tab-expenses" class="finance-tab-panel hidden p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between gap-3 sm:items-center"><div><h3 class="font-bold text-slate-800">Pengeluaran / Biaya</h3><p class="text-[11px] text-slate-500">Simpan sebagai Draft atau langsung Posting ke jurnal.</p></div><button onclick="openExpenseModal()" class="px-4 py-2.5 bg-rose-600 text-white rounded-lg text-xs font-bold"><i data-lucide="plus" class="w-4 h-4 inline mr-1"></i> Tambah Pengeluaran</button></div>
+                        <div class="overflow-x-auto border border-slate-100 rounded-xl"><table class="w-full text-left text-sm whitespace-nowrap"><thead class="bg-slate-50 text-[10px] text-slate-500 uppercase"><tr><th class="px-4 py-3">Tanggal</th><th class="px-4 py-3">Akun Biaya</th><th class="px-4 py-3">Bayar Dari</th><th class="px-4 py-3 text-right">Nominal</th><th class="px-4 py-3">Keterangan</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Aksi</th></tr></thead><tbody id="expenseTableBody" class="divide-y divide-slate-100"><tr><td colspan="7" class="p-8 text-center text-slate-400">Belum dimuat.</td></tr></tbody></table></div>
+                    </div>
+
+                    <div id="finance-tab-journals" class="finance-tab-panel hidden p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between gap-3 sm:items-center"><div><h3 class="font-bold text-slate-800">Jurnal Umum</h3><p class="text-[11px] text-slate-500">Transaksi otomatis dan jurnal manual dengan prinsip Debit = Kredit.</p></div><button onclick="openManualJournalModal()" class="px-4 py-2.5 bg-indigo-600 text-white rounded-lg text-xs font-bold"><i data-lucide="plus" class="w-4 h-4 inline mr-1"></i> Jurnal Manual</button></div>
+                        <div class="overflow-x-auto border border-slate-100 rounded-xl"><table class="w-full text-left text-sm whitespace-nowrap"><thead class="bg-slate-50 text-[10px] text-slate-500 uppercase"><tr><th class="px-4 py-3">No. Jurnal / Tanggal</th><th class="px-4 py-3">Sumber</th><th class="px-4 py-3">Keterangan</th><th class="px-4 py-3 text-right">Debit</th><th class="px-4 py-3 text-right">Kredit</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Aksi</th></tr></thead><tbody id="journalTableBody" class="divide-y divide-slate-100"><tr><td colspan="7" class="p-8 text-center text-slate-400">Belum dimuat.</td></tr></tbody></table></div>
+                    </div>
+
+                    <div id="finance-tab-profitloss" class="finance-tab-panel hidden p-4 sm:p-6"><div id="profitLossContent" class="max-w-4xl mx-auto"><div class="p-8 text-center text-slate-400">Pilih tab Laba Rugi untuk memuat laporan.</div></div></div>
+
+                    <div id="finance-tab-trialbalance" class="finance-tab-panel hidden p-4 sm:p-5 space-y-3"><div id="trialBalanceStatus"></div><div class="overflow-x-auto border border-slate-100 rounded-xl"><table class="w-full text-left text-sm whitespace-nowrap"><thead class="bg-slate-50 text-[10px] text-slate-500 uppercase"><tr><th class="px-4 py-3">Kode</th><th class="px-4 py-3">Nama Akun</th><th class="px-4 py-3">Tipe</th><th class="px-4 py-3 text-right">Debit</th><th class="px-4 py-3 text-right">Kredit</th></tr></thead><tbody id="trialBalanceBody" class="divide-y divide-slate-100"></tbody><tfoot id="trialBalanceFoot" class="bg-slate-50 font-bold"></tfoot></table></div></div>
+
+                    <div id="finance-tab-ledger" class="finance-tab-panel hidden p-4 sm:p-5 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3"><select id="ledgerAccountSelect" class="px-3 py-2.5 border border-slate-200 rounded-lg text-sm bg-white"></select><button onclick="loadGeneralLedger()" class="px-4 py-2.5 bg-slate-900 text-white rounded-lg text-xs font-bold">Tampilkan Buku Besar</button></div>
+                        <div id="ledgerSummary" class="hidden grid grid-cols-2 gap-3"></div>
+                        <div class="overflow-x-auto border border-slate-100 rounded-xl"><table class="w-full text-left text-sm whitespace-nowrap"><thead class="bg-slate-50 text-[10px] text-slate-500 uppercase"><tr><th class="px-4 py-3">Tanggal</th><th class="px-4 py-3">Jurnal</th><th class="px-4 py-3">Keterangan</th><th class="px-4 py-3 text-right">Debit</th><th class="px-4 py-3 text-right">Kredit</th><th class="px-4 py-3 text-right">Saldo</th></tr></thead><tbody id="ledgerBody" class="divide-y divide-slate-100"><tr><td colspan="6" class="p-8 text-center text-slate-400">Pilih akun.</td></tr></tbody></table></div>
+                    </div>
+
+                    <div id="finance-tab-coa" class="finance-tab-panel hidden p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between gap-3 sm:items-center"><div><h3 class="font-bold text-slate-800">Chart of Accounts (COA)</h3><p class="text-[11px] text-slate-500">COA dinamis. Akun sistem yang sudah dipakai tidak dihapus, tetapi dapat dinonaktifkan sesuai aturan backend.</p></div><button onclick="openCOAModal()" class="px-4 py-2.5 bg-violet-600 text-white rounded-lg text-xs font-bold"><i data-lucide="plus" class="w-4 h-4 inline mr-1"></i> Tambah Akun</button></div>
+                        <div class="overflow-x-auto border border-slate-100 rounded-xl"><table class="w-full text-left text-sm whitespace-nowrap"><thead class="bg-slate-50 text-[10px] text-slate-500 uppercase"><tr><th class="px-4 py-3">Kode</th><th class="px-4 py-3">Nama Akun</th><th class="px-4 py-3">Tipe</th><th class="px-4 py-3">Parent</th><th class="px-4 py-3">Normal</th><th class="px-4 py-3">Posting</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Aksi</th></tr></thead><tbody id="coaTableBody" class="divide-y divide-slate-100"></tbody></table></div>
+                    </div>
+
+                    <div id="finance-tab-settings" class="finance-tab-panel hidden p-4 sm:p-6 space-y-6">
+                        <div><h3 class="font-bold text-slate-800">Mapping Akun Sistem</h3><p class="text-[11px] text-slate-500 mt-1">Pilih akun COA yang dipakai untuk posting otomatis. HPP menggunakan Moving Average.</p></div>
+                        <form id="accountingSettingsForm" class="grid grid-cols-1 md:grid-cols-2 gap-4"></form>
+                        <div class="flex justify-end"><button onclick="saveAccountingSettings()" type="button" class="px-5 py-2.5 bg-violet-600 text-white rounded-lg text-xs font-bold">Simpan Mapping Akun</button></div>
+                        <div class="border-t border-slate-100 pt-5 space-y-4">
+                            <div class="flex flex-col sm:flex-row justify-between gap-3 sm:items-center"><div><h3 class="font-bold text-slate-800">Metode Pembayaran & Akun</h3><p class="text-[11px] text-slate-500">Setiap metode pembayaran diarahkan ke akun Kas, Bank, QRIS, atau akun lain.</p></div><button onclick="openPaymentModal()" class="px-4 py-2.5 bg-emerald-600 text-white rounded-lg text-xs font-bold">Tambah Metode</button></div>
+                            <div class="overflow-x-auto border border-slate-100 rounded-xl"><table class="w-full text-left text-sm whitespace-nowrap"><thead class="bg-slate-50 text-[10px] text-slate-500 uppercase"><tr><th class="px-4 py-3">Metode</th><th class="px-4 py-3">Kode</th><th class="px-4 py-3">Akun</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Aksi</th></tr></thead><tbody id="paymentMethodTableBody" class="divide-y divide-slate-100"></tbody></table></div>
                         </div>
                     </div>
                 </div>
@@ -777,7 +915,7 @@
     <div id="productModal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('productModal')"></div>
         <div class="flex items-center justify-center min-h-screen px-4 py-8">
-            <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden z-10 flex flex-col max-h-[90vh]">
+            <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]">
                 <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
                     <h3 class="font-bold text-slate-800" id="productModalTitle">Tambah Produk</h3>
                     <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -792,15 +930,22 @@
                         <label class="block text-xs font-medium text-slate-700 mb-1">Kategori</label>
                         <select id="prodCategory" class="w-full px-3 py-2 border rounded-lg text-sm bg-white"></select>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Harga (Rp)</label>
-                            <input type="number" id="prodPrice" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Harga Jual (Rp)</label>
+                            <input type="number" id="prodPrice" required min="0" class="w-full px-3 py-2 border rounded-lg text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Stok (Kosong=Unlimited)</label>
-                            <input type="number" id="prodStock" class="w-full px-3 py-2 border rounded-lg text-sm">
+                            <label class="block text-xs font-medium text-violet-700 mb-1">HPP Awal (Rp)</label>
+                            <input type="number" id="prodHpp" min="0" class="w-full px-3 py-2 border border-violet-200 rounded-lg text-sm bg-violet-50/40">
                         </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Stok Awal <span class="text-slate-400">(kosong = unlimited)</span></label>
+                            <input type="number" id="prodStock" min="0" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div id="productInventoryEditNote" class="hidden text-[10px] leading-relaxed text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-2.5">
+                        Produk yang sudah dibuat menjaga histori inventory. Perubahan HPP dan stok selanjutnya dilakukan melalui menu <b>Inventory</b>, bukan dari Edit Produk.
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
@@ -992,20 +1137,20 @@
         </div>
     </div>
 
-    <!-- Modal Add/Edit User (HANYA UNTUK KASIR) -->
+    <!-- Modal Add/Edit User / Staff -->
     <div id="userModal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('userModal')"></div>
         <div class="flex items-center justify-center min-h-screen px-4 py-8">
             <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden z-10 flex flex-col max-h-[90vh]">
                 <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
-                    <h3 class="font-bold text-slate-800" id="userModalTitle">Tambah Akun Kasir</h3>
+                    <h3 class="font-bold text-slate-800" id="userModalTitle">Tambah Akun Staf</h3>
                     <button onclick="closeModal('userModal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
                 <form id="userForm" class="p-5 space-y-4 flex-1 overflow-y-auto">
                     <input type="hidden" id="usrId" value="">
                     
                     <div id="pwdContainer">
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Password Kasir Baru</label>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Password Staf Baru</label>
                         <input type="password" id="usrPwd" class="w-full px-3 py-2 border rounded-lg text-sm mb-3">
                     </div>
 
@@ -1021,26 +1166,26 @@
                     </div>
                     
                     <div>
-                        <label class="block text-xs font-medium text-slate-700 mb-1">Nama Lengkap Kasir</label>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Nama Lengkap Staf</label>
                         <input type="text" id="usrNamaToko" required class="w-full px-3 py-2 border rounded-lg text-sm">
                     </div>
 
-                    <!-- Role sengaja disembunyikan dan di-lock ke Kasir -->
-                    <select id="usrRole" class="hidden">
-                        <option value="kasir" selected>Staf Kasir</option>
-                    </select>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Role Staf</label>
+                        <select id="usrRole" class="w-full px-3 py-2 border rounded-lg text-sm bg-white">
+                            <option value="kasir">Kasir</option>
+                            <option value="manager_keuangan">Manager Keuangan</option>
+                        </select>
+                        <p class="text-[10px] text-slate-400 mt-1">Manager Keuangan hanya mendapat akses baca Pesanan/Inventory dan akses kelola modul Keuangan.</p>
+                    </div>
 
-                    <div id="editExtraContainer" class="hidden grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 mt-3">
+                    <div id="editExtraContainer" class="hidden bg-slate-50 p-3 rounded-xl border border-slate-100 mt-3">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Status</label>
                             <select id="usrStatus" class="w-full px-3 py-2 border rounded-lg text-sm bg-white">
                                 <option value="approved">Aktif</option>
                                 <option value="pending">Nonaktif</option>
                             </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Expired At</label>
-                            <input type="text" id="usrExpired" placeholder="2026-12-31" class="w-full px-3 py-2 border rounded-lg text-sm">
                         </div>
                     </div>
                 </form>
@@ -1050,6 +1195,37 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Inventory Action -->
+    <div id="inventoryActionModal" class="fixed inset-0 z-[120] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('inventoryActionModal')"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 py-8">
+            <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden z-10">
+                <div class="px-5 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center"><div><h3 id="inventoryActionTitle" class="font-bold text-slate-800">Aksi Inventory</h3><p id="inventoryActionSubtitle" class="text-[10px] text-slate-500 mt-0.5"></p></div><button onclick="closeModal('inventoryActionModal')" class="text-slate-400"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+                <form id="inventoryActionForm" class="p-5 space-y-4">
+                    <input type="hidden" id="invActionType"><input type="hidden" id="invActionProductId"><input type="hidden" id="invActionVariantId">
+                    <div class="grid grid-cols-2 gap-3 bg-slate-50 border border-slate-100 rounded-xl p-3"><div><div class="text-[9px] font-bold text-slate-400 uppercase">Stok Saat Ini</div><div id="invActionCurrentStock" class="text-lg font-black text-slate-800">0</div></div><div><div class="text-[9px] font-bold text-slate-400 uppercase">HPP Saat Ini</div><div id="invActionCurrentHpp" class="text-lg font-black text-violet-600">Rp 0</div></div></div>
+                    <div id="invStockInFields" class="hidden space-y-3"><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-bold text-slate-700 mb-1">Qty Masuk</label><input type="number" min="1" id="invStockInQty" class="w-full px-3 py-2.5 border rounded-lg text-sm"></div><div><label class="block text-xs font-bold text-violet-700 mb-1">Harga Pokok Pembelian / Unit</label><input type="number" min="0" id="invStockInCost" class="w-full px-3 py-2.5 border border-violet-200 rounded-lg text-sm"></div></div><div><label class="block text-xs font-bold text-slate-700 mb-1">Sumber Pembayaran / Akun Lawan</label><select id="invStockCounterAccount" class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"></select><p class="text-[10px] text-slate-500 mt-1">Contoh: Bank, Kas, atau Hutang Usaha. Jurnal: Dr Persediaan / Cr akun ini.</p></div></div>
+                    <div id="invAdjustFields" class="hidden"><label class="block text-xs font-bold text-slate-700 mb-1">Stok Baru Setelah Penyesuaian</label><input type="number" min="0" id="invAdjustNewStock" class="w-full px-3 py-2.5 border rounded-lg text-sm"></div>
+                    <div id="invOpnameFields" class="hidden"><label class="block text-xs font-bold text-slate-700 mb-1">Stok Aktual Hasil Opname</label><input type="number" min="0" id="invOpnameActual" class="w-full px-3 py-2.5 border rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-700 mb-1">Catatan / Alasan</label><textarea id="invActionNote" rows="2" class="w-full px-3 py-2.5 border rounded-lg text-sm" placeholder="Contoh: Pembelian supplier, barang rusak, hasil opname..."></textarea></div>
+                    <button id="btnInventoryActionSubmit" type="submit" class="w-full py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-lg">Posting Inventory</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pengeluaran -->
+    <div id="expenseModal" class="fixed inset-0 z-[120] hidden"><div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('expenseModal')"></div><div class="flex items-center justify-center min-h-screen px-4 py-8"><div class="relative bg-white rounded-2xl shadow-xl w-full max-w-lg z-10 overflow-hidden"><div class="px-5 py-4 bg-slate-50 border-b flex justify-between"><div><h3 class="font-bold text-slate-800">Tambah Pengeluaran</h3><p class="text-[10px] text-slate-500">Biaya dapat disimpan Draft atau langsung diposting.</p></div><button onclick="closeModal('expenseModal')"><i data-lucide="x" class="w-5 h-5 text-slate-400"></i></button></div><form id="expenseForm" class="p-5 space-y-4"><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-bold mb-1">Tanggal</label><input type="date" id="expenseDate" required class="w-full px-3 py-2.5 border rounded-lg text-sm"></div><div><label class="block text-xs font-bold mb-1">Nominal</label><input type="number" id="expenseAmount" min="1" required class="w-full px-3 py-2.5 border rounded-lg text-sm"></div></div><div><label class="block text-xs font-bold mb-1">Akun Biaya</label><select id="expenseAccount" required class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"></select></div><div><label class="block text-xs font-bold mb-1">Bayar Dari</label><select id="expensePaymentAccount" required class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"></select></div><div><label class="block text-xs font-bold mb-1">Keterangan</label><textarea id="expenseDescription" rows="2" class="w-full px-3 py-2.5 border rounded-lg text-sm"></textarea></div><label class="flex gap-2 items-center text-xs font-semibold text-slate-700 bg-rose-50 border border-rose-100 rounded-lg p-3"><input type="checkbox" id="expensePostNow" checked class="accent-rose-600"> Langsung Posting ke Jurnal</label><button type="submit" class="w-full py-3 bg-rose-600 text-white font-bold rounded-lg">Simpan Pengeluaran</button></form></div></div></div>
+
+    <!-- Modal Jurnal Manual -->
+    <div id="manualJournalModal" class="fixed inset-0 z-[120] hidden"><div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('manualJournalModal')"></div><div class="flex items-center justify-center min-h-screen px-4 py-8"><div class="relative bg-white rounded-2xl shadow-xl w-full max-w-3xl z-10 overflow-hidden max-h-[92vh] flex flex-col"><div class="px-5 py-4 bg-slate-50 border-b flex justify-between shrink-0"><div><h3 class="font-bold text-slate-800">Jurnal Manual</h3><p class="text-[10px] text-slate-500">Minimal 2 baris dan total Debit harus sama dengan Kredit.</p></div><button onclick="closeModal('manualJournalModal')"><i data-lucide="x" class="w-5 h-5 text-slate-400"></i></button></div><form id="manualJournalForm" class="p-5 space-y-4 overflow-y-auto"><div class="grid md:grid-cols-2 gap-3"><div><label class="block text-xs font-bold mb-1">Tanggal Jurnal</label><input id="manualJournalDate" type="date" class="w-full px-3 py-2.5 border rounded-lg text-sm"></div><div><label class="block text-xs font-bold mb-1">Keterangan Jurnal</label><input id="manualJournalDescription" type="text" class="w-full px-3 py-2.5 border rounded-lg text-sm" placeholder="Contoh: Setoran modal awal"></div></div><div class="flex justify-between items-center"><div class="text-xs font-bold text-slate-700">Baris Jurnal</div><button type="button" onclick="addManualJournalLine()" class="px-3 py-2 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-bold">+ Tambah Baris</button></div><div id="manualJournalLines" class="space-y-2"></div><div class="grid grid-cols-2 gap-3 bg-slate-50 border rounded-xl p-3"><div class="text-xs">Total Debit <b id="manualDebitTotal" class="block text-base mt-1">Rp 0</b></div><div class="text-xs text-right">Total Kredit <b id="manualCreditTotal" class="block text-base mt-1">Rp 0</b></div></div><button type="submit" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg">Posting Jurnal Manual</button></form></div></div></div>
+
+    <!-- Modal COA -->
+    <div id="coaModal" class="fixed inset-0 z-[120] hidden"><div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('coaModal')"></div><div class="flex items-center justify-center min-h-screen px-4 py-8"><div class="relative bg-white rounded-2xl shadow-xl w-full max-w-lg z-10 overflow-hidden"><div class="px-5 py-4 bg-slate-50 border-b flex justify-between"><h3 id="coaModalTitle" class="font-bold text-slate-800">Tambah Akun COA</h3><button onclick="closeModal('coaModal')"><i data-lucide="x" class="w-5 h-5 text-slate-400"></i></button></div><form id="coaForm" class="p-5 space-y-4"><input type="hidden" id="coaEditId"><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-bold mb-1">Kode Akun</label><input id="coaCode" required class="w-full px-3 py-2.5 border rounded-lg text-sm" placeholder="6600"></div><div><label class="block text-xs font-bold mb-1">Urutan</label><input id="coaSort" type="number" class="w-full px-3 py-2.5 border rounded-lg text-sm"></div></div><div><label class="block text-xs font-bold mb-1">Nama Akun</label><input id="coaName" required class="w-full px-3 py-2.5 border rounded-lg text-sm" placeholder="Biaya Transport"></div><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-bold mb-1">Tipe Akun</label><select id="coaType" class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"><option>Asset</option><option>Liability</option><option>Equity</option><option>Revenue</option><option>Contra Revenue</option><option>COGS</option><option>Expense</option></select></div><div><label class="block text-xs font-bold mb-1">Normal Balance</label><select id="coaNormal" class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"><option value="debit">Debit</option><option value="credit">Kredit</option></select></div></div><div><label class="block text-xs font-bold mb-1">Parent Account</label><select id="coaParent" class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"><option value="">Tanpa Parent</option></select></div><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-bold mb-1">Boleh Posting?</label><select id="coaPostable" class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"><option value="true">Ya</option><option value="false">Tidak</option></select></div><div><label class="block text-xs font-bold mb-1">Status</label><select id="coaActive" class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"><option value="true">Aktif</option><option value="false">Nonaktif</option></select></div></div><button type="submit" class="w-full py-3 bg-violet-600 text-white font-bold rounded-lg">Simpan Akun</button></form></div></div></div>
+
+    <!-- Modal Metode Pembayaran -->
+    <div id="paymentModal" class="fixed inset-0 z-[120] hidden"><div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('paymentModal')"></div><div class="flex items-center justify-center min-h-screen px-4 py-8"><div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md z-10 overflow-hidden"><div class="px-5 py-4 bg-slate-50 border-b flex justify-between"><h3 class="font-bold text-slate-800">Metode Pembayaran</h3><button onclick="closeModal('paymentModal')"><i data-lucide="x" class="w-5 h-5 text-slate-400"></i></button></div><form id="paymentForm" class="p-5 space-y-4"><input type="hidden" id="paymentId"><div><label class="block text-xs font-bold mb-1">Nama Metode</label><input id="paymentName" required class="w-full px-3 py-2.5 border rounded-lg text-sm" placeholder="Transfer BCA"></div><div><label class="block text-xs font-bold mb-1">Kode Internal</label><input id="paymentCode" required class="w-full px-3 py-2.5 border rounded-lg text-sm" placeholder="bca"></div><div><label class="block text-xs font-bold mb-1">Posting ke Akun</label><select id="paymentAccount" required class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"></select></div><div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-bold mb-1">Status</label><select id="paymentActive" class="w-full px-3 py-2.5 border rounded-lg text-sm bg-white"><option value="true">Aktif</option><option value="false">Nonaktif</option></select></div><div><label class="block text-xs font-bold mb-1">Urutan</label><input id="paymentSort" type="number" value="10" class="w-full px-3 py-2.5 border rounded-lg text-sm"></div></div><button type="submit" class="w-full py-3 bg-emerald-600 text-white font-bold rounded-lg">Simpan Metode</button></form></div></div></div>
 
     <!-- Modal Checkout Kasir POS -->
     <div id="checkoutModal" class="fixed inset-0 z-[100] hidden">
@@ -1101,8 +1277,8 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Metode Pembayaran</label>
                         <select id="coMethod" class="w-full px-3 py-2.5 border rounded-lg text-sm font-bold bg-white" onchange="toggleKembalian()">
-                            <option value="Cash">Tunai (Bayar di Kasir)</option>
-                            <option value="QRIS">QRIS</option>
+                            <option value="cash">Tunai (Cash)</option>
+                            <option value="qris">QRIS</option>
                             <option value="Transfer">Transfer Bank</option>
                         </select>
                     </div>
@@ -1161,6 +1337,8 @@
         const formatRupiah = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         
         let globalProducts = [], globalOrders = [], globalUsers = [], globalCategories = [], globalCoupons = [], globalShipping = [], globalArticles = [];
+        let globalInventory = [], globalInventoryMovements = [], globalCOA = [], globalAccountingSettings = {}, globalPaymentMethods = [], globalExpenses = [], globalJournals = [];
+        let productEditMode = false;
         let appSettings = {};
         let cart = [];
         let targetStoreId = null;
@@ -1182,7 +1360,7 @@
 
             const sidebarBrandNameEl = document.getElementById('sidebarBrandName');
             const sidebarBrandLogoEl = document.getElementById('sidebarBrandLogo');
-            sidebarBrandNameEl.innerText = currentUser.nama_toko || 'iMersWAstore';
+            sidebarBrandNameEl.innerText = currentUser.nama_toko || 'iMersWAStore Bisnis';
 
             if (currentUser.logo && currentUser.logo !== '') {
                 sidebarBrandLogoEl.innerHTML = `<img src="${currentUser.logo}" class="w-8 h-8 object-cover rounded">`;
@@ -1269,34 +1447,47 @@
             if(document.getElementById('setPrivacyActive')) document.getElementById('setPrivacyActive').value = legalData.privacy_active || 'off';
             if(document.getElementById('setPrivacyContent')) document.getElementById('setPrivacyContent').value = legalData.privacy_content || '';
 
-            await fetchGlobalSettings();
-            fetchDashboardData();
-            
-            if (currentUser.role === 'admin') fetchUsersData();
+            setDefaultBusinessDates();
+            renderNavigation();
+
+            // Startup dibuat paralel supaya dashboard tidak menunggu request GAS satu-per-satu.
+            const startupTasks = [fetchDashboardData()];
+            if (currentUser.role === 'admin') {
+                startupTasks.push(fetchGlobalSettings(), fetchUsersData());
+            }
+            await Promise.allSettled(startupTasks);
         }
 
         function renderNavigation() {
             const navMenu = document.getElementById('navMenu');
             let menus = '';
-            
-            if (currentUser.role === 'kasir') {
+            const role = currentUser?.role || 'guest';
+
+            if (role === 'kasir') {
                 menus += createMenuHTML('dashboard', 'layout-dashboard', 'Dashboard');
                 menus += createMenuHTML('order', 'shopping-cart', 'Pesanan Masuk');
                 menus += createMenuHTML('pos', 'calculator', 'Kasir POS');
-            } else {
+            } else if (role === 'manager_keuangan') {
                 menus += createMenuHTML('dashboard', 'layout-dashboard', 'Dashboard');
-                menus += createMenuHTML('users', 'users', 'Manajemen Kasir');
+                menus += createMenuHTML('order', 'shopping-cart', 'Pesanan (Read Only)');
+                menus += createMenuHTML('inventory', 'warehouse', 'Inventory & HPP');
+                menus += createMenuHTML('finance', 'landmark', 'Keuangan');
+            } else if (role === 'admin') {
+                menus += createMenuHTML('dashboard', 'layout-dashboard', 'Dashboard');
+                menus += createMenuHTML('users', 'users', 'Manajemen Staf');
                 menus += createMenuHTML('prod', 'package', 'Katalog Produk');
                 menus += createMenuHTML('kategori', 'tags', 'Kategori Produk');
+                menus += createMenuHTML('inventory', 'warehouse', 'Inventory & HPP');
                 menus += createMenuHTML('kupon', 'ticket', 'Kupon Diskon');
                 menus += createMenuHTML('ongkir', 'truck', 'Ongkos Kirim');
-                menus += createMenuHTML('blog', 'file-text', 'Artikel & Blog'); // Menu Baru
+                menus += createMenuHTML('blog', 'file-text', 'Artikel & Blog');
                 menus += createMenuHTML('order', 'shopping-cart', 'Pesanan Masuk');
                 menus += createMenuHTML('pos', 'calculator', 'Kasir POS');
+                menus += createMenuHTML('finance', 'landmark', 'Keuangan');
                 menus += createMenuHTML('tutorial', 'play-square', 'Video Panduan');
                 menus += createMenuHTML('set', 'settings', 'Pengaturan Toko');
             }
-            
+
             navMenu.innerHTML = menus;
             switchView('dashboard');
             lucide.createIcons();
@@ -1307,6 +1498,14 @@
         }
 
         function switchView(viewId) {
+            const allowedViews = {
+                admin: ['dashboard','users','prod','kategori','inventory','kupon','ongkir','blog','order','pos','finance','tutorial','set'],
+                kasir: ['dashboard','order','pos'],
+                manager_keuangan: ['dashboard','order','inventory','finance']
+            };
+            const role = currentUser?.role || 'guest';
+            if (!(allowedViews[role] || []).includes(viewId)) viewId = 'dashboard';
+
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById('view-' + viewId);
             if(target) target.classList.remove('hidden');
@@ -1324,6 +1523,7 @@
             }
 
             if (window.innerWidth < 1024 && !sidebar.classList.contains('-translate-x-full')) toggleSidebar();
+            if (typeof onBusinessViewOpen === 'function') onBusinessViewOpen(viewId);
         }
 
         function showGlobalAlert(msg, isSuccess = true) {
@@ -1349,16 +1549,9 @@
             for (const key in paramsObj) formData.append(key, paramsObj[key]);
             
             try {
-                const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 20000);
-                const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData, signal: controller.signal });
-                clearTimeout(timeout);
-                const json = await res.json();
-                return json;
+                const res = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+                return await res.json();
             } catch (err) {
-                if (err.name === 'AbortError') {
-                    return { success: false, message: "Server sedang dipersiapkan. Silakan coba lagi." };
-                }
                 return { success: false, message: "Koneksi terputus. Silakan coba lagi." };
             }
         }
@@ -1385,51 +1578,85 @@
                     catch (e) { renderTutorialPlaylist([]); }
                 }
             }
-            renderNavigation();
+            return appSettings;
         }
 
         async function fetchDashboardData() {
             if (!currentUser) return;
-            
-            // Panggil data TANPA mengirim id_user_toko karena Single Store
-            const resCat = await apiCall('get_categories');
-            if(resCat.success) { globalCategories = resCat.data; renderCategories(); populateCategorySelects(); }
+            const role = currentUser.role;
 
-            const resCup = await apiCall('get_coupons');
-            if(resCup.success) { globalCoupons = resCup.data; renderCoupons(); }
+            // Request yang independen dijalankan paralel. Ini memangkas waiting time GAS secara signifikan.
+            const req = {
+                products: apiCall('get_products'),
+                orders: apiCall('get_orders')
+            };
 
-            const resShp = await apiCall('get_shipping');
-            if(resShp.success) { globalShipping = resShp.data; renderShipping(); populateShippingSelects(); }
-
-            const resProd = await apiCall('get_products');
-            if (resProd.success) {
-                globalProducts = resProd.data;
-                renderProducts();
-                renderPOSGrid(globalProducts);
-                document.getElementById('dashProdCount').innerText = globalProducts.length;
+            if (role === 'admin') {
+                req.categories = apiCall('get_categories');
+                req.coupons = apiCall('get_coupons');
+                req.shipping = apiCall('get_shipping');
+                req.articles = apiCall('get_articles');
+                req.paymentMethods = apiCall('get_payment_methods');
+            } else if (role === 'kasir') {
+                // Kasir hanya butuh data POS/order; tidak perlu memuat CMS, kupon admin, atau setting bisnis.
+                req.shipping = apiCall('get_shipping');
+                req.paymentMethods = apiCall('get_payment_methods');
             }
 
-            const resArt = await apiCall('get_articles');
-            if (resArt.success) {
-                globalArticles = resArt.data;
+            const keys = Object.keys(req);
+            const settled = await Promise.all(keys.map(k => req[k].catch(() => ({ success:false }))));
+            const result = {};
+            keys.forEach((k,i) => result[k] = settled[i]);
+
+            if (result.categories?.success) {
+                globalCategories = result.categories.data || [];
+                renderCategories();
+                populateCategorySelects();
+            }
+            if (result.coupons?.success) {
+                globalCoupons = result.coupons.data || [];
+                renderCoupons();
+            }
+            if (result.shipping?.success) {
+                globalShipping = result.shipping.data || [];
+                if (role === 'admin') renderShipping();
+                populateShippingSelects();
+            }
+            if (result.products?.success) {
+                globalProducts = result.products.data || [];
+                if (role === 'admin') renderProducts();
+                if (role === 'admin' || role === 'kasir') renderPOSGrid(globalProducts);
+                const c = document.getElementById('dashProdCount');
+                if (c) c.innerText = globalProducts.length;
+            }
+            if (result.paymentMethods?.success) {
+                globalPaymentMethods = result.paymentMethods.data || [];
+                const activeMethods = globalPaymentMethods.filter(m => String(m.is_active) === 'true');
+                const sel = document.getElementById('coMethod');
+                if (sel && activeMethods.length) {
+                    sel.innerHTML = activeMethods.map(m => `<option value="${escapeHtml(m.code || m.name)}">${escapeHtml(m.name)}</option>`).join('');
+                    toggleKembalian();
+                }
+            }
+            if (result.articles?.success) {
+                globalArticles = result.articles.data || [];
                 renderArticles();
             }
-
-            const resOrder = await apiCall('get_orders');
-            if (resOrder.success) {
-                globalOrders = resOrder.data;
+            if (result.orders?.success) {
+                globalOrders = result.orders.data || [];
                 renderOrders();
-                document.getElementById('dashOrderCount').innerText = globalOrders.length;
-                
-                let pendingOrdersCount = 0;
-                const totalIncome = globalOrders.reduce((sum, ord) => {
+                const c = document.getElementById('dashOrderCount');
+                if (c) c.innerText = globalOrders.length;
+
+                let pendingOrdersCount = 0, totalIncome = 0;
+                globalOrders.forEach(ord => {
                     if (ord.status === 'Baru' || ord.status === 'Pending') pendingOrdersCount++;
-                    if (ord.status === 'Selesai') return sum + parseInt(ord.total || 0);
-                    return sum;
-                }, 0);
-                
-                document.getElementById('dashTotalSales').innerText = formatRupiah(totalIncome);
-                document.getElementById('dashPendingCount').innerText = pendingOrdersCount;
+                    if (ord.status === 'Selesai') totalIncome += Number(ord.total || 0);
+                });
+                const sales = document.getElementById('dashTotalSales');
+                const pending = document.getElementById('dashPendingCount');
+                if (sales) sales.innerText = formatRupiah(totalIncome);
+                if (pending) pending.innerText = pendingOrdersCount;
                 renderCharts();
             }
         }
@@ -1523,20 +1750,25 @@
             const container = document.getElementById('variantsContainer');
             if(!container) return;
             const div = document.createElement('div');
+            const isExisting = !!(v && v.id);
+            const lockInventory = isExisting || productEditMode;
             div.className = 'variant-item bg-slate-50 p-3 rounded-xl border relative mt-2';
-            const varId = v && v.id ? v.id : 'VAR-' + generateId();
+            div.dataset.existing = isExisting ? 'true' : 'false';
+            const varId = isExisting ? v.id : 'VAR-' + generateId();
             div.innerHTML = `
                 <input type="hidden" class="var-id" value="${varId}">
                 <button type="button" onclick="this.parentElement.remove()" class="absolute top-3 right-3 text-red-400 hover:text-red-600"><i data-lucide="x-circle" class="w-5 h-5"></i></button>
-                <div class="grid grid-cols-2 gap-3 mb-3 pr-6">
-                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Warna/Tipe</label><input type="text" class="var-warna w-full px-2 py-1.5 border rounded-md text-xs" placeholder="Merah, Pedas..." value="${v && v.warna ? v.warna : ''}"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Ukuran/Size</label><input type="text" class="var-size w-full px-2 py-1.5 border rounded-md text-xs" placeholder="XL, 40..." value="${v && v.size ? v.size : ''}"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3 pr-6">
+                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">SKU (Opsional)</label><input type="text" class="var-sku w-full px-2 py-1.5 border rounded-md text-xs" placeholder="SKU-001" value="${v && v.sku ? escapeHtml(v.sku) : ''}"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Warna/Tipe</label><input type="text" class="var-warna w-full px-2 py-1.5 border rounded-md text-xs" placeholder="Merah, Pedas..." value="${v && v.warna ? escapeHtml(v.warna) : ''}"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Ukuran/Size</label><input type="text" class="var-size w-full px-2 py-1.5 border rounded-md text-xs" placeholder="XL, 40..." value="${v && v.size ? escapeHtml(v.size) : ''}"></div>
                 </div>
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Harga (Rp)</label><input type="number" class="var-harga w-full px-2 py-1.5 border rounded-md text-xs" placeholder="Harga Utama" value="${v && v.harga ? v.harga : ''}"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Stok Varian</label><input type="number" class="var-stok w-full px-2 py-1.5 border rounded-md text-xs" placeholder="Unlimited" value="${v && v.stok !== undefined ? v.stok : ''}"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Harga Jual</label><input type="number" min="0" class="var-harga w-full px-2 py-1.5 border rounded-md text-xs" value="${v && v.harga !== undefined ? v.harga : ''}"></div>
+                    <div><label class="block text-[10px] font-bold text-violet-700 mb-1">HPP ${lockInventory ? '(via Inventory)' : 'Awal'}</label><input type="number" min="0" class="var-hpp w-full px-2 py-1.5 border border-violet-200 rounded-md text-xs ${lockInventory ? 'bg-slate-100 text-slate-500' : ''}" value="${v && v.hpp !== undefined ? v.hpp : ''}" ${lockInventory ? 'disabled' : ''}></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 mb-1">Stok ${lockInventory ? '(via Inventory)' : 'Awal'}</label><input type="number" min="0" class="var-stok w-full px-2 py-1.5 border rounded-md text-xs ${lockInventory ? 'bg-slate-100 text-slate-500' : ''}" value="${v && v.stok !== undefined ? v.stok : ''}" ${lockInventory ? 'disabled' : ''}></div>
                 </div>
-                <div><label class="block text-[10px] font-bold text-slate-600 mb-1">URL Gambar Khusus (Opsional)</label><input type="url" class="var-gambar w-full px-2 py-1.5 border rounded-md text-xs" placeholder="https://..." value="${v && v.gambar ? v.gambar : ''}"></div>
+                <div><label class="block text-[10px] font-bold text-slate-600 mb-1">URL Gambar Khusus (Opsional)</label><input type="url" class="var-gambar w-full px-2 py-1.5 border rounded-md text-xs" placeholder="https://..." value="${v && v.gambar ? escapeHtml(v.gambar) : ''}"></div>
             `;
             container.appendChild(div);
             lucide.createIcons();
@@ -1582,17 +1814,35 @@
 
         function renderProducts() {
             const tbody = document.getElementById('productTableBody');
-            if (globalProducts.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500">Belum ada produk.</td></tr>`; return; }
+            if (!tbody) return;
+            if (globalProducts.length === 0) { tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-500">Belum ada produk.</td></tr>`; return; }
             tbody.innerHTML = globalProducts.map(p => {
                 let catName = '-';
                 if(p.category_id) { const cat = globalCategories.find(c => c.id === p.category_id); if(cat) catName = cat.name; }
-                let badgeHtml = p.badge ? `<span class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded text-[9px] font-bold mt-1 inline-block">${p.badge}</span>` : '';
+                let badgeHtml = p.badge ? `<span class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded text-[9px] font-bold mt-1 inline-block">${escapeHtml(p.badge)}</span>` : '';
+                let vars = []; try { vars = Array.isArray(p.variants_array) ? p.variants_array : JSON.parse(p.variants || '[]'); } catch(e) { vars = []; }
                 let varInfo = `<span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold">${p.stock === '' ? 'Unlimited' : p.stock + ' ' + (p.unit || 'pcs')}</span>`;
-                try { let parsedVars = JSON.parse(p.variants || '[]'); if(parsedVars.length > 0) varInfo = `<span class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-[10px] font-bold">${parsedVars.length} Varian</span>`; } catch(e){}
+                let hppText = formatRupiah(Number(p.hpp || 0));
+                let marginText = '-';
+                if (vars.length > 0) {
+                    varInfo = `<span class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-[10px] font-bold">${vars.length} Varian</span>`;
+                    const hpps = vars.map(v => Number(v.hpp || 0)).filter(v => !Number.isNaN(v));
+                    if (hpps.length) {
+                        const minH = Math.min(...hpps), maxH = Math.max(...hpps);
+                        hppText = minH === maxH ? formatRupiah(minH) : `${formatRupiah(minH)} - ${formatRupiah(maxH)}`;
+                    } else hppText = 'HPP Varian';
+                    marginText = '<span class="text-[10px] text-slate-500">Per varian</span>';
+                } else {
+                    const price = Number(p.price || 0), hpp = Number(p.hpp || 0), margin = price - hpp;
+                    const pct = price > 0 ? (margin / price * 100) : 0;
+                    marginText = `<span class="font-bold ${margin >= 0 ? 'text-emerald-600' : 'text-red-600'}">${formatRupiah(margin)}</span><div class="text-[9px] text-slate-400">${pct.toFixed(1)}%</div>`;
+                }
                 return `
                 <tr class="hover:bg-slate-50 border-b">
-                    <td class="px-4 py-4 flex items-center gap-3"><img src="${p.img || 'https://placehold.co/100x100/e2e8f0/64748b?text=Box'}" class="w-10 h-10 rounded-lg object-cover shrink-0"><div class="min-w-0"><div class="font-bold text-slate-800 text-xs">${p.name} ${badgeHtml}</div><div class="text-[9px] text-slate-400 mt-1 truncate">Kategori: ${catName}</div></div></td>
-                    <td class="px-4 py-4 whitespace-nowrap"><span class="font-bold text-slate-700 text-xs">${formatRupiah(p.price)}</span><span class="text-[10px] text-slate-400"> /${p.unit || 'pcs'}</span></td>
+                    <td class="px-4 py-4 flex items-center gap-3"><img src="${p.img || 'https://placehold.co/100x100/e2e8f0/64748b?text=Box'}" class="w-10 h-10 rounded-lg object-cover shrink-0"><div class="min-w-0"><div class="font-bold text-slate-800 text-xs">${escapeHtml(p.name)} ${badgeHtml}</div><div class="text-[9px] text-slate-400 mt-1 truncate">Kategori: ${escapeHtml(catName)}</div></div></td>
+                    <td class="px-4 py-4 whitespace-nowrap"><span class="font-bold text-slate-700 text-xs">${formatRupiah(p.price)}</span><span class="text-[10px] text-slate-400"> /${escapeHtml(p.unit || 'pcs')}</span></td>
+                    <td class="px-4 py-4 whitespace-nowrap"><span class="font-bold text-violet-700 text-xs">${hppText}</span></td>
+                    <td class="px-4 py-4 whitespace-nowrap text-xs">${marginText}</td>
                     <td class="px-4 py-4 whitespace-nowrap">${varInfo}</td>
                     <td class="px-4 py-4 text-right whitespace-nowrap"><button onclick="openProductModal('${p.id}')" class="text-blue-500 hover:text-blue-700 text-xs font-medium mr-2">Edit</button><button onclick="deleteProduct('${p.id}')" class="text-red-500 hover:text-red-700 text-xs font-medium">Hapus</button></td>
                 </tr>`;
@@ -1719,21 +1969,34 @@
             const tbody = document.getElementById('orderTableBody');
             if (globalOrders.length === 0) { tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-500">Belum ada pesanan.</td></tr>`; return; }
             tbody.innerHTML = globalOrders.map(o => {
-                let statusColor = o.status === 'Selesai' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
+                const statusMap = { 'Selesai':'bg-emerald-100 text-emerald-700', 'Baru':'bg-amber-100 text-amber-700', 'Batal':'bg-red-100 text-red-700' };
+                let statusColor = statusMap[o.status] || 'bg-slate-100 text-slate-700';
                 let dateStr = new Date(o.time).toLocaleString('id-ID');
                 let itemsList = ''; try { itemsList = JSON.parse(o.items).join('<br>'); } catch(e) { itemsList = o.items; }
                 let rincianBiaya = `<div class="text-[9px] text-slate-500">Subtotal: <span class="font-bold text-slate-700">${formatRupiah(o.subtotal || 0)}</span></div><div class="text-[9px] text-slate-500">Ongkir: <span class="font-bold text-slate-700">${formatRupiah(o.ongkir || 0)}</span></div><div class="text-[9px] text-slate-500">Diskon: <span class="font-bold text-red-500">-${formatRupiah(o.diskon || 0)}</span></div>`;
-                if (o.pajak_ppn > 0) rincianBiaya += `<div class="text-[9px] text-amber-600">PPN: <span class="font-bold text-amber-700">${formatRupiah(o.pajak_ppn)}</span></div>`;
-                if (o.biaya_layanan > 0) rincianBiaya += `<div class="text-[9px] text-blue-600">Layanan: <span class="font-bold text-blue-700">${formatRupiah(o.biaya_layanan)}</span></div>`;
+                if (o.pajak_ppn > 0) rincianBiaya += `<div class="text-[9px] text-amber-600">PPN: <span class="font-bold">${formatRupiah(o.pajak_ppn)}</span></div>`;
+                if (o.biaya_layanan > 0) rincianBiaya += `<div class="text-[9px] text-blue-600">Layanan: <span class="font-bold">${formatRupiah(o.biaya_layanan)}</span></div>`;
+                if ((currentUser.role === 'admin' || currentUser.role === 'manager_keuangan') && o.total_hpp !== undefined) {
+                    rincianBiaya += `<div class="text-[9px] text-violet-600">HPP: <span class="font-bold">${formatRupiah(o.total_hpp || 0)}</span></div><div class="text-[9px] text-emerald-600">Laba Kotor Produk: <span class="font-bold">${formatRupiah(o.gross_profit || 0)}</span></div>`;
+                }
                 rincianBiaya += `<div class="text-[10px] font-bold text-slate-800 mt-1 border-t border-slate-100 pt-1">Total: ${formatRupiah(o.total)}</div>`;
-                let actionBtns = o.status === 'Baru' ? `<button onclick="updateOrderStatus('${o.id}', 'Selesai')" class="block w-full text-center text-[10px] bg-emerald-500 text-white font-bold px-2.5 py-1.5 rounded mb-1">Tandai Selesai</button><button onclick="deleteOrder('${o.id}')" class="block w-full text-center text-[10px] bg-red-50 text-red-500 font-bold px-2.5 py-1.5 rounded">Hapus</button>` : `<button onclick="deleteOrder('${o.id}')" class="block w-full text-center text-[10px] bg-red-50 text-red-500 font-bold px-2.5 py-1.5 rounded">Hapus Riwayat</button>`;
+                let actionBtns = '';
+                if (currentUser.role === 'manager_keuangan') {
+                    actionBtns = `<span class="text-[9px] font-bold text-violet-600 bg-violet-50 px-2 py-1 rounded">READ ONLY</span>`;
+                } else if (o.status === 'Baru') {
+                    actionBtns = `<button onclick="updateOrderStatus('${o.id}', 'Selesai')" class="block w-full text-center text-[10px] bg-emerald-500 text-white font-bold px-2.5 py-1.5 rounded mb-1">Selesaikan & Posting</button><button onclick="updateOrderStatus('${o.id}', 'Batal')" class="block w-full text-center text-[10px] bg-red-50 text-red-600 font-bold px-2.5 py-1.5 rounded">Batalkan</button>`;
+                } else if (o.status === 'Selesai' && currentUser.role === 'admin') {
+                    actionBtns = `<button onclick="updateOrderStatus('${o.id}', 'Batal')" class="block w-full text-center text-[10px] bg-red-50 text-red-600 font-bold px-2.5 py-1.5 rounded">Batal + Reverse</button>`;
+                } else {
+                    actionBtns = `<span class="text-[9px] text-slate-400">Tidak ada aksi</span>`;
+                }
                 return `
                 <tr class="hover:bg-slate-50 border-b">
-                    <td class="px-4 py-4"><div class="font-mono text-[10px] font-bold text-slate-800">${o.id}</div><div class="text-[9px] text-slate-500">${dateStr}</div></td>
-                    <td class="px-4 py-4 font-medium text-slate-700 text-xs">${o.buyer || 'Walk-in'}<div class="text-[9px] text-slate-400">${o.wa || '-'}</div></td>
+                    <td class="px-4 py-4"><div class="font-mono text-[10px] font-bold text-slate-800">${escapeHtml(o.id)}</div><div class="text-[9px] text-slate-500">${dateStr}</div><div class="text-[9px] text-slate-400 mt-1">${escapeHtml(o.source || '')} · ${escapeHtml(o.inventory_status || '')}</div></td>
+                    <td class="px-4 py-4 font-medium text-slate-700 text-xs">${escapeHtml(o.buyer || 'Walk-in')}<div class="text-[9px] text-slate-400">${escapeHtml(o.wa || '-')}</div></td>
                     <td class="px-4 py-4 text-[9px] text-slate-600">${itemsList}</td>
                     <td class="px-4 py-4">${rincianBiaya}</td>
-                    <td class="px-4 py-4"><span class="${statusColor} px-2 py-1 rounded text-[9px] font-bold">${o.status}</span></td>
+                    <td class="px-4 py-4"><span class="${statusColor} px-2 py-1 rounded text-[9px] font-bold">${escapeHtml(o.status)}</span>${o.journal_id ? `<div class="text-[8px] font-mono text-slate-400 mt-1">${escapeHtml(o.journal_id)}</div>` : ''}</td>
                     <td class="px-4 py-4 text-right">${actionBtns}</td>
                 </tr>`;
             }).join('');
@@ -1741,27 +2004,35 @@
         }
 
         async function updateOrderStatus(orderId, newStatus) {
-            if (!confirm(`Tandai pesanan ${newStatus}?`)) return;
+            const label = newStatus === 'Selesai' ? 'menyelesaikan order dan mem-posting stok + jurnal' : 'membatalkan order';
+            if (!confirm(`Yakin ${label}?`)) return;
             const res = await apiCall('update_order_status', { id_order: orderId, new_status: newStatus });
-            if (res.success) { showGlobalAlert("Status diperbarui!", true); fetchDashboardData(); } else alert(res.message);
+            if (res.success) {
+                showGlobalAlert(res.message || 'Status diperbarui!', true);
+                await refreshProductsAndOrders();
+                if (globalInventory.length) fetchInventoryData(false);
+                if (globalCOA.length) loadFinanceSummary();
+            } else alert(res.message);
         }
 
         async function deleteOrder(orderId) {
-            if (!confirm(`Hapus permanen pesanan ini?`)) return;
+            if (!confirm(`Hapus order draft/belum posted ini?`)) return;
             const res = await apiCall('delete_order', { id_order: orderId });
-            if (res.success) { showGlobalAlert("Pesanan dihapus!", true); fetchDashboardData(); } else alert(res.message);
+            if (res.success) { showGlobalAlert(res.message, true); await refreshProductsAndOrders(); } else alert(res.message);
         }
 
         function renderUsers() {
             const tbody = document.getElementById('usersTableBody');
-            if (globalUsers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500">Tidak ada data staf kasir.</td></tr>`; return; }
-            tbody.innerHTML = globalUsers.map(u => {
-                let statusUI = u.status === 'approved' ? `<span class="text-green-600 bg-green-50 px-2 py-1 rounded text-[10px] font-bold">Aktif</span>` : `<span class="text-amber-600 bg-amber-50 px-2 py-1 rounded text-[10px] font-bold">Pending</span>`;
-                let actionBtns = `<button onclick="openUserModal('${u.id}')" class="text-blue-500 text-[10px] font-medium mr-2">Edit</button><button onclick="deleteUser('${u.id}')" class="text-red-500 text-[10px] font-medium">Hapus</button>`;
+            const staff = globalUsers.filter(u => u.role !== 'admin');
+            if (staff.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500">Belum ada akun staf.</td></tr>`; return; }
+            tbody.innerHTML = staff.map(u => {
+                const statusUI = u.status === 'approved' ? `<span class="text-green-600 bg-green-50 px-2 py-1 rounded text-[10px] font-bold">Aktif</span>` : `<span class="text-amber-600 bg-amber-50 px-2 py-1 rounded text-[10px] font-bold">Nonaktif</span>`;
+                const roleLabel = u.role === 'manager_keuangan' ? 'Manager Keuangan' : 'Kasir';
+                const actionBtns = `<button onclick="openUserModal('${u.id}')" class="text-blue-500 text-[10px] font-medium mr-2">Edit</button><button onclick="deleteUser('${u.id}')" class="text-red-500 text-[10px] font-medium">Hapus</button>`;
                 return `
                 <tr class="hover:bg-slate-50 border-b">
-                    <td class="px-4 py-3"><div class="font-bold text-slate-800 text-xs">${u.nama_toko} <span class="font-normal text-[10px] text-slate-500">(@${u.username})</span></div><div class="text-[9px] text-slate-500 font-mono">${u.email}</div></td>
-                    <td class="px-4 py-3"><span class="px-2 py-1 bg-slate-100 rounded text-[9px] font-bold uppercase tracking-wider">${u.role}</span></td>
+                    <td class="px-4 py-3"><div class="font-bold text-slate-800 text-xs">${escapeHtml(u.nama_toko || '-')} <span class="font-normal text-[10px] text-slate-500">(@${escapeHtml(u.username || '')})</span></div><div class="text-[9px] text-slate-500 font-mono">${escapeHtml(u.email || '')}</div></td>
+                    <td class="px-4 py-3"><span class="px-2 py-1 bg-slate-100 rounded text-[9px] font-bold uppercase tracking-wider">${escapeHtml(roleLabel)}</span></td>
                     <td class="px-4 py-3">${statusUI}</td>
                     <td class="px-4 py-3 text-right whitespace-nowrap">${actionBtns}</td>
                 </tr>`;
@@ -1770,8 +2041,15 @@
 
         function openProductModal(id = null) {
             document.getElementById('productForm').reset();
+            productEditMode = !!id;
             document.getElementById('prodId').value = '';
             document.getElementById('productModalTitle').innerText = 'Tambah Produk';
+            const hppInput = document.getElementById('prodHpp');
+            const stockInput = document.getElementById('prodStock');
+            const editNote = document.getElementById('productInventoryEditNote');
+            if (hppInput) { hppInput.disabled = false; hppInput.classList.remove('bg-slate-100','text-slate-500'); }
+            if (stockInput) { stockInput.disabled = false; stockInput.classList.remove('bg-slate-100','text-slate-500'); }
+            if (editNote) editNote.classList.add('hidden');
             const varContainer = document.getElementById('variantsContainer');
             if(varContainer) varContainer.innerHTML = '';
             if (id) {
@@ -1781,44 +2059,51 @@
                     document.getElementById('prodId').value = p.id;
                     document.getElementById('prodName').value = p.name;
                     document.getElementById('prodPrice').value = p.price;
-                    document.getElementById('prodStock').value = p.stock;
+                    if (hppInput) { hppInput.value = p.hpp || 0; hppInput.disabled = true; hppInput.classList.add('bg-slate-100','text-slate-500'); }
+                    if (stockInput) { stockInput.value = p.stock; stockInput.disabled = true; stockInput.classList.add('bg-slate-100','text-slate-500'); }
+                    if (editNote) editNote.classList.remove('hidden');
                     if (document.getElementById('prodUnit')) document.getElementById('prodUnit').value = p.unit || 'pcs';
                     if (document.getElementById('prodBadge')) document.getElementById('prodBadge').value = p.badge || '';
                     if (document.getElementById('prodImg')) document.getElementById('prodImg').value = p.img || '';
                     if (document.getElementById('prodDesc')) document.getElementById('prodDesc').value = p.desc || '';
                     if (document.getElementById('prodCategory')) document.getElementById('prodCategory').value = p.category_id || '';
-                    let parsedVars = []; try { if (p.variants) parsedVars = JSON.parse(p.variants); } catch(e){}
+                    let parsedVars = []; try { parsedVars = Array.isArray(p.variants_array) ? p.variants_array : JSON.parse(p.variants || '[]'); } catch(e){}
                     parsedVars.forEach(v => addVariantInput(v));
                 }
             }
             document.getElementById('productModal').classList.remove('hidden');
+            lucide.createIcons();
         }
 
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnSaveProd');
-            btn.innerText = "Menyimpan..."; 
+            btn.innerText = "Menyimpan...";
+            btn.disabled = true;
             const isEdit = document.getElementById('prodId').value !== '';
-            
+
             const payload = {
                 nama_produk: document.getElementById('prodName').value,
                 harga: document.getElementById('prodPrice').value,
-                stok: document.getElementById('prodStock').value,
+                hpp: document.getElementById('prodHpp') ? document.getElementById('prodHpp').value : 0,
+                stok: document.getElementById('prodStock') ? document.getElementById('prodStock').value : '',
                 satuan: document.getElementById('prodUnit') ? document.getElementById('prodUnit').value : 'pcs',
                 badge: document.getElementById('prodBadge') ? document.getElementById('prodBadge').value : '',
                 gambar: document.getElementById('prodImg') ? document.getElementById('prodImg').value : '',
                 deskripsi: document.getElementById('prodDesc') ? document.getElementById('prodDesc').value : '',
                 id_kategori: document.getElementById('prodCategory') ? document.getElementById('prodCategory').value : ''
             };
-            
+
             const varItems = document.querySelectorAll('.variant-item');
             const varArray = [];
             varItems.forEach(item => {
                 varArray.push({
                     id: item.querySelector('.var-id').value,
+                    sku: item.querySelector('.var-sku').value.trim(),
                     warna: item.querySelector('.var-warna').value.trim(),
                     size: item.querySelector('.var-size').value.trim(),
                     harga: item.querySelector('.var-harga').value,
+                    hpp: item.querySelector('.var-hpp').value,
                     stok: item.querySelector('.var-stok').value,
                     gambar: item.querySelector('.var-gambar').value.trim()
                 });
@@ -1827,8 +2112,13 @@
             if (isEdit) payload.id_produk = document.getElementById('prodId').value;
 
             const res = await apiCall(isEdit ? 'edit_product' : 'add_product', payload);
-            btn.innerText = "Simpan Produk"; 
-            if (res.success) { closeModal('productModal'); showGlobalAlert(res.message, true); fetchDashboardData(); } else alert(res.message);
+            btn.innerText = "Simpan Produk";
+            btn.disabled = false;
+            if (res.success) {
+                closeModal('productModal'); showGlobalAlert(res.message, true);
+                await refreshProductsAndOrders();
+                if (globalInventory.length) fetchInventoryData(false);
+            } else alert(res.message);
         });
 
         function openCategoryModal(id = null) {
@@ -1955,7 +2245,8 @@
         function openUserModal(id = null) {
             document.getElementById('userForm').reset();
             document.getElementById('usrId').value = '';
-            document.getElementById('userModalTitle').innerText = 'Tambah Akun Kasir';
+            document.getElementById('usrRole').value = 'kasir';
+            document.getElementById('userModalTitle').innerText = 'Tambah Akun Staf';
             document.getElementById('pwdContainer').classList.remove('hidden');
             document.getElementById('editExtraContainer').classList.add('hidden');
             document.getElementById('usrPwd').setAttribute('required', 'true');
@@ -1963,14 +2254,13 @@
             if (id) {
                 const u = globalUsers.find(x => x.id === id);
                 if (u) {
-                    document.getElementById('userModalTitle').innerText = 'Edit Kasir';
+                    document.getElementById('userModalTitle').innerText = 'Edit Akun Staf';
                     document.getElementById('usrId').value = u.id;
                     document.getElementById('usrUsername').value = u.username;
                     document.getElementById('usrEmail').value = u.email;
                     document.getElementById('usrNamaToko').value = u.nama_toko;
+                    document.getElementById('usrRole').value = u.role === 'manager_keuangan' ? 'manager_keuangan' : 'kasir';
                     document.getElementById('usrStatus').value = u.status;
-                    let d = new Date(u.expired_at);
-                    document.getElementById('usrExpired').value = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0');
                     document.getElementById('pwdContainer').classList.add('hidden');
                     document.getElementById('usrPwd').removeAttribute('required');
                     document.getElementById('editExtraContainer').classList.remove('hidden');
@@ -1994,14 +2284,13 @@
                     edit_email: document.getElementById('usrEmail').value,
                     edit_nama_toko: document.getElementById('usrNamaToko').value,
                     edit_status: document.getElementById('usrStatus').value,
-                    edit_expired_at: document.getElementById('usrExpired').value,
-                    edit_role: 'kasir'
+                    edit_role: document.getElementById('usrRole').value
                 };
             } else {
                 action = 'create_account';
                 payload = {
                     is_self_register: 'false',
-                    new_role: 'kasir', 
+                    new_role: document.getElementById('usrRole').value,
                     new_username: document.getElementById('usrUsername').value,
                     new_password: document.getElementById('usrPwd').value,
                     email: document.getElementById('usrEmail').value,
@@ -2010,12 +2299,12 @@
             }
 
             const res = await apiCall(action, payload);
-            btn.innerText = "Simpan Akun Kasir"; 
+            btn.innerText = "Simpan Akun Staf"; 
             if (res.success) { closeModal('userModal'); showGlobalAlert(res.message, true); fetchUsersData(); } else alert(res.message);
         });
 
         async function deleteUser(id) {
-            if (!confirm("Yakin hapus akun kasir ini secara permanen?")) return;
+            if (!confirm("Yakin hapus akun staf ini secara permanen?")) return;
             const res = await apiCall('delete_user', { target_user_id: id });
             if (res.success) fetchUsersData(); else alert(res.message);
         }
@@ -2117,6 +2406,186 @@
             if (res.success) { showGlobalAlert(res.message, true); document.getElementById('passwordForm').reset(); } else alert(res.message);
         });
 
+        // =========================================================
+        // iMersWAStore Bisnis: Inventory + Accounting Frontend
+        // =========================================================
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+        }
+
+        function todayISO() { return new Date().toISOString().slice(0, 10); }
+        function firstDayMonthISO() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-01`; }
+        function niceDate(v) { if (!v) return '-'; const d = new Date(v); return Number.isNaN(d.getTime()) ? escapeHtml(v) : d.toLocaleString('id-ID'); }
+        function niceDateOnly(v) { if (!v) return '-'; const d = new Date(v); return Number.isNaN(d.getTime()) ? escapeHtml(v) : d.toLocaleDateString('id-ID'); }
+        function coaById(id) { return globalCOA.find(a => String(a.account_id) === String(id) || String(a.code) === String(id)); }
+        function coaLabel(id) { const a = coaById(id); return a ? `${a.code} - ${a.name}` : (id || '-'); }
+        function activePostableCOA(types = null) { return globalCOA.filter(a => String(a.is_active) === 'true' && String(a.is_postable) === 'true' && (!types || types.includes(a.type))); }
+        function accountOptions(accounts, selected = '') { return `<option value="">-- Pilih Akun --</option>` + accounts.map(a => `<option value="${escapeHtml(a.account_id)}" ${String(a.account_id)===String(selected)?'selected':''}>${escapeHtml(a.code)} - ${escapeHtml(a.name)}</option>`).join(''); }
+        function setDefaultBusinessDates() {
+            ['financeStartDate','inventoryMovementStart'].forEach(id => { const el=document.getElementById(id); if(el && !el.value) el.value=firstDayMonthISO(); });
+            ['financeEndDate','inventoryMovementEnd'].forEach(id => { const el=document.getElementById(id); if(el && !el.value) el.value=todayISO(); });
+        }
+
+        async function refreshProductsAndOrders() {
+            const [prodRes, orderRes] = await Promise.all([apiCall('get_products'), apiCall('get_orders')]);
+            if (prodRes.success) { globalProducts = prodRes.data || []; renderProducts(); renderPOSGrid(globalProducts); const c=document.getElementById('dashProdCount'); if(c)c.innerText=globalProducts.length; }
+            if (orderRes.success) { globalOrders = orderRes.data || []; renderOrders(); const c=document.getElementById('dashOrderCount'); if(c)c.innerText=globalOrders.length; let pending=0, income=0; globalOrders.forEach(o=>{ if(o.status==='Baru'||o.status==='Pending')pending++; if(o.status==='Selesai')income+=Number(o.total||0); }); const s=document.getElementById('dashTotalSales'); if(s)s.innerText=formatRupiah(income); const p=document.getElementById('dashPendingCount'); if(p)p.innerText=pending; renderCharts(); }
+        }
+
+        async function fetchPaymentMethodsForPOS() {
+            const res = await apiCall('get_payment_methods');
+            if (!res.success) return;
+            globalPaymentMethods = res.data || [];
+            const activeMethods = globalPaymentMethods.filter(m => String(m.is_active) === 'true');
+            const sel = document.getElementById('coMethod');
+            if (!sel || !activeMethods.length) return;
+            sel.innerHTML = activeMethods.map(m => `<option value="${escapeHtml(m.code || m.name)}">${escapeHtml(m.name)}</option>`).join('');
+            toggleKembalian();
+        }
+
+        async function onBusinessViewOpen(viewId) {
+            if (!currentUser || !['admin', 'manager_keuangan'].includes(currentUser.role)) return;
+            setDefaultBusinessDates();
+            if (viewId === 'inventory') await fetchInventoryData(false);
+            if (viewId === 'finance') await initFinanceModule();
+        }
+
+        // ---------------- INVENTORY ----------------
+        function setInventoryTab(tab) {
+            document.querySelectorAll('.inventory-tab-panel').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.inventory-tab-btn').forEach(el => { el.classList.remove('bg-cyan-50','text-cyan-700'); el.classList.add('text-slate-500'); });
+            const panel=document.getElementById('inventory-tab-'+tab); if(panel)panel.classList.remove('hidden');
+            const btn=document.getElementById('invTabBtn-'+tab); if(btn){btn.classList.add('bg-cyan-50','text-cyan-700');btn.classList.remove('text-slate-500');}
+            if (tab === 'movements') loadInventoryMovements();
+        }
+
+        async function fetchInventoryData(loadMovements = false) {
+            const res = await apiCall('get_inventory_summary');
+            if (!res.success) { showGlobalAlert(res.message || 'Gagal memuat inventory.', false); return; }
+            globalInventory = res.data || [];
+            renderInventorySummary();
+            populateInventoryMovementSelect();
+            if (loadMovements) await loadInventoryMovements();
+        }
+
+        function renderInventorySummary() {
+            const tbody = document.getElementById('inventoryTableBody'); if(!tbody)return;
+            const q = String(document.getElementById('inventorySearch')?.value || '').toLowerCase();
+            const rows = globalInventory.filter(r => !q || `${r.name} ${r.sku}`.toLowerCase().includes(q));
+            const totalPhysical = globalInventory.reduce((s,r)=>s+(r.physical_stock===''?0:Number(r.physical_stock||0)),0);
+            const totalReserved = globalInventory.reduce((s,r)=>s+Number(r.reserved_stock||0),0);
+            const totalValue = globalInventory.reduce((s,r)=>s+Number(r.inventory_value||0),0);
+            const statItems=document.getElementById('invStatItems'); if(statItems)statItems.innerText=globalInventory.length;
+            const statPhysical=document.getElementById('invStatPhysical'); if(statPhysical)statPhysical.innerText=totalPhysical.toLocaleString('id-ID');
+            const statReserved=document.getElementById('invStatReserved'); if(statReserved)statReserved.innerText=totalReserved.toLocaleString('id-ID');
+            const statValue=document.getElementById('invStatValue'); if(statValue)statValue.innerText=formatRupiah(totalValue);
+            if (!rows.length) { tbody.innerHTML='<tr><td colspan="8" class="p-8 text-center text-slate-400">Tidak ada data inventory.</td></tr>'; return; }
+            tbody.innerHTML = rows.map(r => `
+                <tr class="hover:bg-slate-50">
+                    <td class="px-4 py-3"><div class="font-bold text-xs text-slate-800">${escapeHtml(r.name)}</div><div class="text-[9px] font-mono text-slate-400">${escapeHtml(r.product_id)}${r.variant_id ? ' / '+escapeHtml(r.variant_id) : ''}</div></td>
+                    <td class="px-4 py-3 text-[10px] font-mono text-slate-500">${escapeHtml(r.sku || '-')}</td>
+                    <td class="px-4 py-3 text-right font-bold text-xs">${r.physical_stock === '' ? '∞' : Number(r.physical_stock||0).toLocaleString('id-ID')}</td>
+                    <td class="px-4 py-3 text-right text-xs text-amber-600">${Number(r.reserved_stock||0).toLocaleString('id-ID')}</td>
+                    <td class="px-4 py-3 text-right text-xs text-emerald-600 font-bold">${r.available_stock === '' ? '∞' : Number(r.available_stock||0).toLocaleString('id-ID')}</td>
+                    <td class="px-4 py-3 text-right text-xs text-violet-700 font-bold">${formatRupiah(r.hpp||0)}</td>
+                    <td class="px-4 py-3 text-right text-xs font-bold">${formatRupiah(r.inventory_value||0)}</td>
+                    <td class="px-4 py-3 text-right">${currentUser.role === 'admin' ? `<div class="inline-flex gap-1"><button onclick="openInventoryAction('stock_in','${r.product_id}','${r.variant_id||''}')" class="px-2 py-1.5 rounded bg-emerald-50 text-emerald-700 text-[9px] font-bold">Stok Masuk</button><button onclick="openInventoryAction('adjust','${r.product_id}','${r.variant_id||''}')" class="px-2 py-1.5 rounded bg-amber-50 text-amber-700 text-[9px] font-bold">Adjust</button><button onclick="openInventoryAction('opname','${r.product_id}','${r.variant_id||''}')" class="px-2 py-1.5 rounded bg-blue-50 text-blue-700 text-[9px] font-bold">Opname</button></div>` : `<span class="px-2 py-1 rounded bg-violet-50 text-violet-600 text-[9px] font-bold">READ ONLY</span>`}</td>
+                </tr>`).join('');
+        }
+
+        function populateInventoryMovementSelect() {
+            const sel=document.getElementById('inventoryMovementItem'); if(!sel)return;
+            const cur=sel.value;
+            sel.innerHTML='<option value="">Semua Produk / Varian</option>'+globalInventory.map(r=>`<option value="${escapeHtml(r.product_id)}|${escapeHtml(r.variant_id||'')}">${escapeHtml(r.name)}</option>`).join('');
+            if([...sel.options].some(o=>o.value===cur))sel.value=cur;
+        }
+
+        async function loadInventoryMovements() {
+            const sel=document.getElementById('inventoryMovementItem'); let product_id='', variant_id='';
+            if(sel && sel.value){[product_id,variant_id]=sel.value.split('|');}
+            const params={product_id,variant_id,start_date:document.getElementById('inventoryMovementStart')?.value||'',end_date:document.getElementById('inventoryMovementEnd')?.value||''};
+            const res=await apiCall('get_inventory_movements',params); if(!res.success)return showGlobalAlert(res.message,false);
+            globalInventoryMovements=res.data||[]; const tbody=document.getElementById('inventoryMovementBody'); if(!tbody)return;
+            if(!globalInventoryMovements.length){tbody.innerHTML='<tr><td colspan="8" class="p-8 text-center text-slate-400">Belum ada pergerakan pada filter ini.</td></tr>';return;}
+            const typeStyle={STOCK_IN:'bg-emerald-50 text-emerald-700',SALE:'bg-blue-50 text-blue-700',ADJUSTMENT:'bg-amber-50 text-amber-700',STOCK_OPNAME:'bg-indigo-50 text-indigo-700',OPENING:'bg-slate-100 text-slate-700',SALE_REVERSAL:'bg-rose-50 text-rose-700'};
+            tbody.innerHTML=globalInventoryMovements.map(m=>{const inv=globalInventory.find(r=>String(r.product_id)===String(m.product_id)&&String(r.variant_id||'')===String(m.variant_id||''));return `<tr><td class="px-4 py-3 text-[10px]">${niceDate(m.date)}</td><td class="px-4 py-3"><div class="text-xs font-bold">${escapeHtml(inv?inv.name:m.product_id)}</div><div class="text-[9px] font-mono text-slate-400">${escapeHtml(m.variant_id||'')}</div></td><td class="px-4 py-3"><span class="px-2 py-1 rounded text-[9px] font-bold ${typeStyle[m.type]||'bg-slate-100 text-slate-600'}">${escapeHtml(m.type)}</span></td><td class="px-4 py-3 text-right text-emerald-600 font-bold text-xs">${m.qty_in? '+'+m.qty_in:'-'}</td><td class="px-4 py-3 text-right text-red-600 font-bold text-xs">${m.qty_out? '-'+m.qty_out:'-'}</td><td class="px-4 py-3 text-right text-xs">${m.stock_before} → <b>${m.stock_after}</b></td><td class="px-4 py-3 text-right text-xs">${formatRupiah(m.unit_cost||0)}</td><td class="px-4 py-3"><div class="text-[10px] font-semibold">${escapeHtml(m.source_type||'')}</div><div class="text-[9px] text-slate-500 max-w-xs truncate">${escapeHtml(m.note||'')}</div></td></tr>`}).join('');
+        }
+
+        async function ensureAccountingMasters(force=false) {
+            if (!force && globalCOA.length && Object.keys(globalAccountingSettings).length) return true;
+            const [coaRes,setRes,payRes]=await Promise.all([apiCall('get_coa'),apiCall('get_accounting_settings'),apiCall('get_payment_methods')]);
+            if(!coaRes.success)return showGlobalAlert(coaRes.message||'Gagal memuat COA',false),false;
+            globalCOA=coaRes.data||[]; globalAccountingSettings=setRes.success?(setRes.data||{}):{}; globalPaymentMethods=payRes.success?(payRes.data||[]):[];
+            return true;
+        }
+
+        async function openInventoryAction(type, productId, variantId='') {
+            if (currentUser?.role !== 'admin') return showGlobalAlert('Inventory untuk Manager Keuangan bersifat read-only.', false);
+            if (!await ensureAccountingMasters()) return;
+            const row=globalInventory.find(r=>String(r.product_id)===String(productId)&&String(r.variant_id||'')===String(variantId||'')); if(!row)return alert('Item inventory tidak ditemukan.');
+            document.getElementById('invActionType').value=type; document.getElementById('invActionProductId').value=productId; document.getElementById('invActionVariantId').value=variantId;
+            document.getElementById('invActionSubtitle').innerText=row.name; document.getElementById('invActionCurrentStock').innerText=row.physical_stock===''?'Unlimited':row.physical_stock; document.getElementById('invActionCurrentHpp').innerText=formatRupiah(row.hpp||0); document.getElementById('invActionNote').value='';
+            ['invStockInFields','invAdjustFields','invOpnameFields'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+            if(type==='stock_in'){document.getElementById('inventoryActionTitle').innerText='Stok Masuk';document.getElementById('invStockInFields').classList.remove('hidden');document.getElementById('invStockInQty').value='';document.getElementById('invStockInCost').value=row.hpp||0;const def=globalAccountingSettings.default_stock_payment_account?.value||globalAccountingSettings.bank_account?.value||'';document.getElementById('invStockCounterAccount').innerHTML=accountOptions(activePostableCOA(),def);}
+            if(type==='adjust'){document.getElementById('inventoryActionTitle').innerText='Penyesuaian Stok';document.getElementById('invAdjustFields').classList.remove('hidden');document.getElementById('invAdjustNewStock').value=row.physical_stock===''?0:row.physical_stock;}
+            if(type==='opname'){document.getElementById('inventoryActionTitle').innerText='Stock Opname';document.getElementById('invOpnameFields').classList.remove('hidden');document.getElementById('invOpnameActual').value=row.physical_stock===''?0:row.physical_stock;}
+            document.getElementById('inventoryActionModal').classList.remove('hidden'); lucide.createIcons();
+        }
+
+        document.getElementById('inventoryActionForm')?.addEventListener('submit',async e=>{e.preventDefault();const type=document.getElementById('invActionType').value;const base={product_id:document.getElementById('invActionProductId').value,variant_id:document.getElementById('invActionVariantId').value};let action='',payload={...base};if(type==='stock_in'){action='stock_in';payload.qty=document.getElementById('invStockInQty').value;payload.unit_cost=document.getElementById('invStockInCost').value;payload.counter_account_id=document.getElementById('invStockCounterAccount').value;payload.note=document.getElementById('invActionNote').value;}if(type==='adjust'){action='adjust_stock';payload.new_stock=document.getElementById('invAdjustNewStock').value;payload.reason=document.getElementById('invActionNote').value;}if(type==='opname'){action='stock_opname';payload.actual_stock=document.getElementById('invOpnameActual').value;payload.note=document.getElementById('invActionNote').value;}const btn=document.getElementById('btnInventoryActionSubmit');btn.disabled=true;btn.innerText='Memproses...';const res=await apiCall(action,payload);btn.disabled=false;btn.innerText='Posting Inventory';if(res.success){closeModal('inventoryActionModal');showGlobalAlert(res.message,true);await refreshProductsAndOrders();await fetchInventoryData(true);if(globalCOA.length)loadFinanceSummary();}else alert(res.message);});
+
+        // ---------------- FINANCE ----------------
+        async function initFinanceModule() {
+            setDefaultBusinessDates();
+            if(!await ensureAccountingMasters())return;
+            renderCOA(); renderAccountingSettings(); renderPaymentMethods(); populateFinanceAccountSelects();
+            await loadFinanceSummary();
+        }
+
+        function financePeriod(){return {start_date:document.getElementById('financeStartDate')?.value||'',end_date:document.getElementById('financeEndDate')?.value||''};}
+        async function refreshFinancePeriod(){await loadFinanceSummary();const visible=[...document.querySelectorAll('.finance-tab-panel')].find(p=>!p.classList.contains('hidden'));if(!visible)return;const tab=visible.id.replace('finance-tab-','');if(tab==='profitloss')loadProfitLoss();if(tab==='trialbalance')loadTrialBalance();if(tab==='journals')loadJournals();if(tab==='ledger')loadGeneralLedger();}
+        async function loadFinanceSummary(){const res=await apiCall('get_finance_summary',financePeriod());if(!res.success)return showGlobalAlert(res.message,false);const d=res.data||{};const map={finNetRevenue:d.net_revenue,finCogs:d.cogs,finGrossProfit:d.gross_profit,finExpenses:d.expenses,finNetProfit:d.net_profit,finInventoryValue:d.inventory_value};Object.entries(map).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.innerText=formatRupiah(val||0);});}
+
+        async function setFinanceTab(tab){document.querySelectorAll('.finance-tab-panel').forEach(el=>el.classList.add('hidden'));document.querySelectorAll('.finance-tab-btn').forEach(el=>{el.classList.remove('bg-violet-50','text-violet-700');el.classList.add('text-slate-500');});document.getElementById('finance-tab-'+tab)?.classList.remove('hidden');const btn=document.getElementById('financeTabBtn-'+tab);if(btn){btn.classList.add('bg-violet-50','text-violet-700');btn.classList.remove('text-slate-500');}if(!await ensureAccountingMasters())return;if(tab==='expenses')loadExpenses();if(tab==='journals')loadJournals();if(tab==='profitloss')loadProfitLoss();if(tab==='trialbalance')loadTrialBalance();if(tab==='ledger')populateFinanceAccountSelects();if(tab==='coa')renderCOA();if(tab==='settings'){renderAccountingSettings();renderPaymentMethods();}}
+
+        function populateFinanceAccountSelects(){const postable=activePostableCOA();const ledger=document.getElementById('ledgerAccountSelect');if(ledger){const cur=ledger.value;ledger.innerHTML=accountOptions(postable,cur);}const expense=document.getElementById('expenseAccount');if(expense)expense.innerHTML=accountOptions(activePostableCOA(['Expense']));const expPay=document.getElementById('expensePaymentAccount');if(expPay)expPay.innerHTML=accountOptions(postable);const payAcc=document.getElementById('paymentAccount');if(payAcc)payAcc.innerHTML=accountOptions(postable);}
+
+        async function loadExpenses(){const res=await apiCall('get_expenses');if(!res.success)return showGlobalAlert(res.message,false);globalExpenses=res.data||[];const tbody=document.getElementById('expenseTableBody');if(!tbody)return;if(!globalExpenses.length){tbody.innerHTML='<tr><td colspan="7" class="p-8 text-center text-slate-400">Belum ada pengeluaran.</td></tr>';return;}tbody.innerHTML=globalExpenses.map(x=>`<tr><td class="px-4 py-3 text-xs">${niceDateOnly(x.date)}</td><td class="px-4 py-3 text-xs font-semibold">${escapeHtml(coaLabel(x.expense_account_id))}</td><td class="px-4 py-3 text-xs">${escapeHtml(coaLabel(x.payment_account_id))}</td><td class="px-4 py-3 text-right font-bold text-rose-600">${formatRupiah(x.amount||0)}</td><td class="px-4 py-3 text-xs max-w-xs truncate">${escapeHtml(x.description||'-')}</td><td class="px-4 py-3"><span class="px-2 py-1 rounded text-[9px] font-bold ${x.status==='Posted'?'bg-emerald-50 text-emerald-700':'bg-amber-50 text-amber-700'}">${escapeHtml(x.status)}</span></td><td class="px-4 py-3 text-right">${x.status==='Draft'?`<button onclick="postExpense('${x.expense_id}')" class="px-2 py-1.5 rounded bg-emerald-50 text-emerald-700 text-[9px] font-bold">Posting</button>`:`<span class="text-[9px] font-mono text-slate-400">${escapeHtml(x.journal_id||'')}</span>`}</td></tr>`).join('');}
+        async function openExpenseModal(){if(!await ensureAccountingMasters())return;populateFinanceAccountSelects();document.getElementById('expenseForm').reset();document.getElementById('expenseDate').value=todayISO();document.getElementById('expensePostNow').checked=true;document.getElementById('expenseModal').classList.remove('hidden');}
+        document.getElementById('expenseForm')?.addEventListener('submit',async e=>{e.preventDefault();const payload={tanggal:document.getElementById('expenseDate').value,expense_account_id:document.getElementById('expenseAccount').value,payment_account_id:document.getElementById('expensePaymentAccount').value,amount:document.getElementById('expenseAmount').value,description:document.getElementById('expenseDescription').value,post_now:document.getElementById('expensePostNow').checked?'true':'false'};const res=await apiCall('add_expense',payload);if(res.success){closeModal('expenseModal');showGlobalAlert(res.message,true);await loadExpenses();await loadFinanceSummary();}else alert(res.message);});
+        async function postExpense(id){if(!confirm('Posting pengeluaran ini ke jurnal? Setelah posted, koreksi dilakukan dengan jurnal reversal.'))return;const res=await apiCall('post_expense',{expense_id:id});if(res.success){showGlobalAlert(res.message,true);await loadExpenses();await loadFinanceSummary();}else alert(res.message);}
+
+        async function loadJournals(){const res=await apiCall('get_journals',financePeriod());if(!res.success)return showGlobalAlert(res.message,false);globalJournals=res.data||[];const tbody=document.getElementById('journalTableBody');if(!tbody)return;if(!globalJournals.length){tbody.innerHTML='<tr><td colspan="7" class="p-8 text-center text-slate-400">Belum ada jurnal pada periode ini.</td></tr>';return;}tbody.innerHTML=globalJournals.map(j=>{const td=(j.lines||[]).reduce((s,l)=>s+Number(l.debit||0),0),tc=(j.lines||[]).reduce((s,l)=>s+Number(l.credit||0),0);const lines=(j.lines||[]).map(l=>`<div class="grid grid-cols-[1fr_100px_100px] gap-2 py-1 border-b border-slate-100 last:border-0"><span>${escapeHtml(coaLabel(l.account_id))}<small class="block text-slate-400">${escapeHtml(l.description||'')}</small></span><span class="text-right">${formatRupiah(l.debit||0)}</span><span class="text-right">${formatRupiah(l.credit||0)}</span></div>`).join('');return `<tr><td class="px-4 py-3"><div class="font-mono text-[10px] font-bold">${escapeHtml(j.journal_no)}</div><div class="text-[9px] text-slate-400">${niceDateOnly(j.date)}</div></td><td class="px-4 py-3"><div class="text-[10px] font-bold">${escapeHtml(j.source_type)}</div><div class="text-[9px] text-slate-400">${escapeHtml(j.source_id||'')}</div></td><td class="px-4 py-3 text-xs max-w-xs"><button onclick="toggleJournalDetail('${j.journal_id}')" class="text-left hover:text-indigo-600">${escapeHtml(j.description||'-')}<span class="block text-[9px] text-indigo-500 mt-1">Lihat ${j.lines?.length||0} baris</span></button></td><td class="px-4 py-3 text-right text-xs font-bold">${formatRupiah(td)}</td><td class="px-4 py-3 text-right text-xs font-bold">${formatRupiah(tc)}</td><td class="px-4 py-3"><span class="px-2 py-1 rounded text-[9px] font-bold ${j.status==='Posted'?'bg-emerald-50 text-emerald-700':'bg-red-50 text-red-700'}">${escapeHtml(j.status)}</span></td><td class="px-4 py-3 text-right">${j.status==='Posted'&&j.source_type!=='REVERSAL'?`<button onclick="reverseJournal('${j.journal_id}')" class="text-[9px] text-red-600 font-bold">Reverse</button>`:''}</td></tr><tr id="journal-detail-${j.journal_id}" class="hidden bg-slate-50"><td colspan="7" class="px-6 py-3 text-[10px]">${lines}</td></tr>`}).join('');}
+        function toggleJournalDetail(id){document.getElementById('journal-detail-'+id)?.classList.toggle('hidden');}
+        async function reverseJournal(id){const reason=prompt('Alasan reversal jurnal:','Koreksi jurnal');if(reason===null)return;const res=await apiCall('reverse_journal',{journal_id:id,reason});if(res.success){showGlobalAlert(res.message,true);await loadJournals();await loadFinanceSummary();}else alert(res.message);}
+
+        async function openManualJournalModal(){if(!await ensureAccountingMasters())return;document.getElementById('manualJournalForm').reset();document.getElementById('manualJournalDate').value=todayISO();document.getElementById('manualJournalLines').innerHTML='';addManualJournalLine();addManualJournalLine();updateManualJournalTotals();document.getElementById('manualJournalModal').classList.remove('hidden');}
+        function addManualJournalLine(data={}){const c=document.getElementById('manualJournalLines');if(!c)return;const row=document.createElement('div');row.className='manual-journal-line grid grid-cols-1 md:grid-cols-[1.7fr_1fr_1fr_1.3fr_auto] gap-2 bg-slate-50 border rounded-xl p-2';row.innerHTML=`<select class="mjl-account px-2 py-2 border rounded-lg text-xs bg-white">${accountOptions(activePostableCOA(),data.account_id||'')}</select><input type="number" min="0" class="mjl-debit px-2 py-2 border rounded-lg text-xs" placeholder="Debit" value="${data.debit||''}" oninput="updateManualJournalTotals();clearOtherJournalSide(this,'debit')"><input type="number" min="0" class="mjl-credit px-2 py-2 border rounded-lg text-xs" placeholder="Kredit" value="${data.credit||''}" oninput="updateManualJournalTotals();clearOtherJournalSide(this,'credit')"><input class="mjl-desc px-2 py-2 border rounded-lg text-xs" placeholder="Keterangan baris" value="${escapeHtml(data.description||'')}"><button type="button" onclick="this.closest('.manual-journal-line').remove();updateManualJournalTotals()" class="p-2 text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;c.appendChild(row);lucide.createIcons();}
+        function clearOtherJournalSide(input,side){const row=input.closest('.manual-journal-line');if(Number(input.value||0)>0){const other=row.querySelector(side==='debit'?'.mjl-credit':'.mjl-debit');other.value='';}updateManualJournalTotals();}
+        function updateManualJournalTotals(){let d=0,c=0;document.querySelectorAll('.manual-journal-line').forEach(r=>{d+=Number(r.querySelector('.mjl-debit').value||0);c+=Number(r.querySelector('.mjl-credit').value||0);});const de=document.getElementById('manualDebitTotal'),ce=document.getElementById('manualCreditTotal');if(de)de.innerText=formatRupiah(d);if(ce)ce.innerText=formatRupiah(c);}
+        document.getElementById('manualJournalForm')?.addEventListener('submit',async e=>{e.preventDefault();const lines=[...document.querySelectorAll('.manual-journal-line')].map(r=>({account_id:r.querySelector('.mjl-account').value,debit:Number(r.querySelector('.mjl-debit').value||0),credit:Number(r.querySelector('.mjl-credit').value||0),description:r.querySelector('.mjl-desc').value})).filter(l=>l.account_id&&(l.debit>0||l.credit>0));const d=lines.reduce((s,l)=>s+l.debit,0),c=lines.reduce((s,l)=>s+l.credit,0);if(lines.length<2)return alert('Minimal 2 baris jurnal.');if(Math.abs(d-c)>0.01)return alert('Jurnal belum balance. Debit harus sama dengan Kredit.');const res=await apiCall('add_manual_journal',{journal_date:document.getElementById('manualJournalDate').value,description:document.getElementById('manualJournalDescription').value,lines:JSON.stringify(lines)});if(res.success){closeModal('manualJournalModal');showGlobalAlert(res.message,true);await loadJournals();await loadFinanceSummary();}else alert(res.message);});
+
+        async function loadProfitLoss(){const res=await apiCall('get_profit_loss',financePeriod());if(!res.success)return showGlobalAlert(res.message,false);const d=res.data||{};const section=(title,rows,total,labelClass='text-slate-800')=>`<div class="mb-5"><div class="font-black text-xs uppercase tracking-wider text-slate-500 border-b pb-2 mb-2">${title}</div>${(rows||[]).length?(rows||[]).map(r=>`<div class="flex justify-between py-1.5 text-xs"><span>${escapeHtml(r.code)} - ${escapeHtml(r.name)}</span><b>${formatRupiah(r.amount||0)}</b></div>`).join(''):'<div class="text-xs text-slate-400 py-2">Belum ada transaksi.</div>'}<div class="flex justify-between py-2 border-t mt-1 font-black text-sm ${labelClass}"><span>Total ${title}</span><span>${formatRupiah(total||0)}</span></div></div>`;document.getElementById('profitLossContent').innerHTML=`<div class="flex justify-between items-center mb-5"><div><h3 class="font-black text-lg">Laporan Laba Rugi</h3><p class="text-[10px] text-slate-500">${escapeHtml(document.getElementById('financeStartDate').value)} s/d ${escapeHtml(document.getElementById('financeEndDate').value)}</p></div><div class="text-right"><div class="text-[10px] text-slate-400">LABA BERSIH</div><div class="text-xl font-black ${Number(d.net_profit||0)>=0?'text-emerald-600':'text-red-600'}">${formatRupiah(d.net_profit||0)}</div></div></div>${section('Pendapatan',d.revenue_accounts,d.revenue,'text-emerald-700')}${section('Diskon Penjualan',d.contra_revenue_accounts,d.contra_revenue,'text-rose-600')}<div class="flex justify-between p-3 bg-emerald-50 rounded-xl font-black text-sm text-emerald-800 mb-5"><span>Pendapatan Bersih</span><span>${formatRupiah(d.net_revenue||0)}</span></div>${section('Harga Pokok Penjualan',d.cogs_accounts,d.cogs,'text-amber-700')}<div class="flex justify-between p-3 bg-blue-50 rounded-xl font-black text-sm text-blue-800 mb-5"><span>Laba Kotor</span><span>${formatRupiah(d.gross_profit||0)}</span></div>${section('Beban Operasional',d.expense_accounts,d.expenses,'text-rose-700')}<div class="flex justify-between p-4 bg-slate-900 text-white rounded-xl font-black text-base"><span>LABA / RUGI BERSIH</span><span>${formatRupiah(d.net_profit||0)}</span></div>`;}
+
+        async function loadTrialBalance(){const res=await apiCall('get_trial_balance',{end_date:document.getElementById('financeEndDate')?.value||''});if(!res.success)return showGlobalAlert(res.message,false);const d=res.data||{};const tbody=document.getElementById('trialBalanceBody');tbody.innerHTML=(d.accounts||[]).map(a=>`<tr><td class="px-4 py-3 font-mono text-[10px]">${escapeHtml(a.code)}</td><td class="px-4 py-3 text-xs font-semibold">${escapeHtml(a.name)}</td><td class="px-4 py-3 text-[10px]">${escapeHtml(a.type)}</td><td class="px-4 py-3 text-right text-xs">${formatRupiah(a.debit||0)}</td><td class="px-4 py-3 text-right text-xs">${formatRupiah(a.credit||0)}</td></tr>`).join('')||'<tr><td colspan="5" class="p-8 text-center text-slate-400">Belum ada saldo akun.</td></tr>';document.getElementById('trialBalanceFoot').innerHTML=`<tr><td colspan="3" class="px-4 py-3">TOTAL</td><td class="px-4 py-3 text-right">${formatRupiah(d.total_debit||0)}</td><td class="px-4 py-3 text-right">${formatRupiah(d.total_credit||0)}</td></tr>`;document.getElementById('trialBalanceStatus').innerHTML=`<div class="p-3 rounded-lg text-xs font-bold ${d.balanced?'bg-emerald-50 text-emerald-700 border border-emerald-100':'bg-red-50 text-red-700 border border-red-100'}">${d.balanced?'✓ Neraca Saldo Balance':'⚠ Neraca Saldo Tidak Balance'} · per ${niceDateOnly(d.as_of)}</div>`;}
+
+        async function loadGeneralLedger(){const account_id=document.getElementById('ledgerAccountSelect')?.value;if(!account_id)return;const res=await apiCall('get_general_ledger',{account_id,...financePeriod()});if(!res.success)return showGlobalAlert(res.message,false);const d=res.data||{};const sum=document.getElementById('ledgerSummary');sum.classList.remove('hidden');sum.innerHTML=`<div class="p-3 bg-slate-50 border rounded-xl"><div class="text-[9px] text-slate-400 uppercase">Saldo Awal</div><div class="font-black">${formatRupiah(d.opening_balance||0)}</div></div><div class="p-3 bg-violet-50 border border-violet-100 rounded-xl"><div class="text-[9px] text-violet-400 uppercase">Saldo Akhir</div><div class="font-black text-violet-700">${formatRupiah(d.closing_balance||0)}</div></div>`;document.getElementById('ledgerBody').innerHTML=(d.entries||[]).map(r=>`<tr><td class="px-4 py-3 text-[10px]">${niceDateOnly(r.date)}</td><td class="px-4 py-3"><div class="font-mono text-[10px] font-bold">${escapeHtml(r.journal_no)}</div><div class="text-[9px] text-slate-400">${escapeHtml(r.source_type)}</div></td><td class="px-4 py-3 text-xs max-w-xs truncate">${escapeHtml(r.description||'')}</td><td class="px-4 py-3 text-right text-xs">${formatRupiah(r.debit||0)}</td><td class="px-4 py-3 text-right text-xs">${formatRupiah(r.credit||0)}</td><td class="px-4 py-3 text-right font-bold text-xs">${formatRupiah(r.balance||0)}</td></tr>`).join('')||'<tr><td colspan="6" class="p-8 text-center text-slate-400">Tidak ada mutasi pada periode ini.</td></tr>';}
+
+        function renderCOA(){const tbody=document.getElementById('coaTableBody');if(!tbody)return;tbody.innerHTML=globalCOA.map(a=>{const parent=coaById(a.parent_id);return `<tr class="${String(a.is_active)!=='true'?'opacity-50':''}"><td class="px-4 py-3 font-mono text-[10px] font-bold">${escapeHtml(a.code)}</td><td class="px-4 py-3"><div class="text-xs font-semibold">${escapeHtml(a.name)}</div>${String(a.is_system)==='true'?'<span class="text-[8px] bg-slate-100 px-1 py-0.5 rounded">SYSTEM</span>':''}</td><td class="px-4 py-3 text-[10px]">${escapeHtml(a.type)}</td><td class="px-4 py-3 text-[10px]">${parent?escapeHtml(parent.code+' - '+parent.name):'-'}</td><td class="px-4 py-3 text-[10px] uppercase">${escapeHtml(a.normal_balance)}</td><td class="px-4 py-3 text-[10px]">${String(a.is_postable)==='true'?'Ya':'Tidak'}</td><td class="px-4 py-3"><span class="text-[9px] font-bold ${String(a.is_active)==='true'?'text-emerald-600':'text-red-600'}">${String(a.is_active)==='true'?'Aktif':'Nonaktif'}</span></td><td class="px-4 py-3 text-right"><button onclick="openCOAModal('${a.account_id}')" class="text-[10px] text-blue-600 font-bold mr-2">Edit</button>${String(a.is_system)!=='true'?`<button onclick="deleteCOA('${a.account_id}')" class="text-[10px] text-red-600 font-bold">Hapus</button>`:''}</td></tr>`}).join('');populateFinanceAccountSelects();}
+        function fillCOAParentOptions(selected='',exclude=''){const sel=document.getElementById('coaParent');if(!sel)return;sel.innerHTML='<option value="">Tanpa Parent</option>'+globalCOA.filter(a=>String(a.account_id)!==String(exclude)).map(a=>`<option value="${a.account_id}" ${String(a.account_id)===String(selected)?'selected':''}>${escapeHtml(a.code)} - ${escapeHtml(a.name)}</option>`).join('');}
+        async function openCOAModal(id=''){if(!await ensureAccountingMasters())return;document.getElementById('coaForm').reset();document.getElementById('coaEditId').value='';document.getElementById('coaCode').disabled=false;document.getElementById('coaActive').value='true';document.getElementById('coaPostable').value='true';document.getElementById('coaModalTitle').innerText='Tambah Akun COA';if(id){const a=coaById(id);if(!a)return;document.getElementById('coaEditId').value=a.account_id;document.getElementById('coaCode').value=a.code;document.getElementById('coaCode').disabled=true;document.getElementById('coaName').value=a.name;document.getElementById('coaType').value=a.type;document.getElementById('coaNormal').value=a.normal_balance;document.getElementById('coaPostable').value=String(a.is_postable);document.getElementById('coaActive').value=String(a.is_active);document.getElementById('coaSort').value=a.sort_order;document.getElementById('coaModalTitle').innerText='Edit Akun '+a.code;fillCOAParentOptions(a.parent_id,a.account_id);}else{fillCOAParentOptions();document.getElementById('coaSort').value='';document.getElementById('coaNormal').value='debit';}document.getElementById('coaModal').classList.remove('hidden');}
+        document.getElementById('coaType')?.addEventListener('change',e=>{document.getElementById('coaNormal').value=['Asset','Contra Revenue','COGS','Expense'].includes(e.target.value)?'debit':'credit';});
+        document.getElementById('coaForm')?.addEventListener('submit',async e=>{e.preventDefault();const id=document.getElementById('coaEditId').value;const payload={account_name:document.getElementById('coaName').value,account_type:document.getElementById('coaType').value,parent_id:document.getElementById('coaParent').value,normal_balance:document.getElementById('coaNormal').value,is_postable:document.getElementById('coaPostable').value,is_active:document.getElementById('coaActive').value,sort_order:document.getElementById('coaSort').value};if(id)payload.account_id=id;else payload.account_code=document.getElementById('coaCode').value;const res=await apiCall(id?'edit_coa':'add_coa',payload);if(res.success){closeModal('coaModal');showGlobalAlert(res.message,true);await ensureAccountingMasters(true);renderCOA();renderAccountingSettings();renderPaymentMethods();}else alert(res.message);});
+        async function deleteCOA(id){if(!confirm('Hapus/nonaktifkan akun ini?'))return;const res=await apiCall('delete_coa',{account_id:id});if(res.success){showGlobalAlert(res.message,true);await ensureAccountingMasters(true);renderCOA();}else alert(res.message);}
+
+        const accountingLabels={hpp_method:'Metode HPP',currency:'Mata Uang',inventory_account:'Akun Persediaan',sales_account:'Akun Penjualan',shipping_income_account:'Pendapatan Ongkir',service_income_account:'Pendapatan Biaya Layanan',discount_account:'Diskon Penjualan',tax_payable_account:'PPN Keluaran',cogs_account:'Akun HPP',cash_account:'Akun Kas',bank_account:'Akun Bank',qris_account:'Akun QRIS',default_stock_payment_account:'Default Pembayaran Stok',inventory_adjustment_account:'Selisih Persediaan',opening_equity_account:'Lawan Saldo Awal'};
+        function renderAccountingSettings(){const form=document.getElementById('accountingSettingsForm');if(!form)return;form.innerHTML=Object.keys(globalAccountingSettings).map(key=>{const item=globalAccountingSettings[key]||{};const label=accountingLabels[key]||key;if(key.includes('_account'))return `<div><label class="block text-xs font-bold text-slate-700 mb-1">${escapeHtml(label)}</label><select data-setting-key="${escapeHtml(key)}" class="accounting-setting-input w-full px-3 py-2.5 border rounded-lg text-sm bg-white">${accountOptions(activePostableCOA(),item.value)}</select><p class="text-[9px] text-slate-400 mt-1">${escapeHtml(item.description||'')}</p></div>`;if(key==='hpp_method')return `<div><label class="block text-xs font-bold text-slate-700 mb-1">${escapeHtml(label)}</label><select data-setting-key="${key}" class="accounting-setting-input w-full px-3 py-2.5 border rounded-lg text-sm bg-slate-50" disabled><option value="moving_average">Moving Average</option></select><p class="text-[9px] text-slate-400 mt-1">${escapeHtml(item.description||'')}</p></div>`;return `<div><label class="block text-xs font-bold text-slate-700 mb-1">${escapeHtml(label)}</label><input data-setting-key="${escapeHtml(key)}" value="${escapeHtml(item.value||'')}" class="accounting-setting-input w-full px-3 py-2.5 border rounded-lg text-sm"><p class="text-[9px] text-slate-400 mt-1">${escapeHtml(item.description||'')}</p></div>`;}).join('');}
+        async function saveAccountingSettings(){const payload={};document.querySelectorAll('.accounting-setting-input').forEach(el=>{if(!el.disabled)payload[el.dataset.settingKey]=el.value;});const res=await apiCall('update_accounting_settings',payload);if(res.success){showGlobalAlert(res.message,true);await ensureAccountingMasters(true);renderAccountingSettings();}else alert(res.message);}
+
+        function renderPaymentMethods(){const tbody=document.getElementById('paymentMethodTableBody');if(!tbody)return;tbody.innerHTML=globalPaymentMethods.map(m=>`<tr><td class="px-4 py-3 text-xs font-bold">${escapeHtml(m.name)}</td><td class="px-4 py-3 font-mono text-[10px]">${escapeHtml(m.code)}</td><td class="px-4 py-3 text-xs">${escapeHtml(coaLabel(m.account_id))}</td><td class="px-4 py-3"><span class="text-[9px] font-bold ${String(m.is_active)==='true'?'text-emerald-600':'text-red-600'}">${String(m.is_active)==='true'?'Aktif':'Nonaktif'}</span></td><td class="px-4 py-3 text-right"><button onclick="openPaymentModal('${m.id}')" class="text-[10px] text-blue-600 font-bold">Edit</button></td></tr>`).join('')||'<tr><td colspan="5" class="p-8 text-center text-slate-400">Belum ada metode pembayaran.</td></tr>';fetchPaymentMethodsForPOS();}
+        async function openPaymentModal(id=''){if(!await ensureAccountingMasters())return;document.getElementById('paymentForm').reset();document.getElementById('paymentId').value='';document.getElementById('paymentActive').value='true';document.getElementById('paymentSort').value='10';populateFinanceAccountSelects();if(id){const m=globalPaymentMethods.find(x=>String(x.id)===String(id));if(m){document.getElementById('paymentId').value=m.id;document.getElementById('paymentName').value=m.name;document.getElementById('paymentCode').value=m.code;document.getElementById('paymentAccount').value=m.account_id;document.getElementById('paymentActive').value=String(m.is_active);document.getElementById('paymentSort').value=m.sort_order;}}document.getElementById('paymentModal').classList.remove('hidden');}
+        document.getElementById('paymentForm')?.addEventListener('submit',async e=>{e.preventDefault();const payload={payment_id:document.getElementById('paymentId').value,payment_name:document.getElementById('paymentName').value,payment_code:document.getElementById('paymentCode').value,account_id:document.getElementById('paymentAccount').value,is_active:document.getElementById('paymentActive').value,sort_order:document.getElementById('paymentSort').value};const res=await apiCall('save_payment_method',payload);if(res.success){closeModal('paymentModal');showGlobalAlert(res.message,true);await ensureAccountingMasters(true);renderPaymentMethods();}else alert(res.message);});
+
         // --- KASIR POS LOGIC ---
         function filterPOS() {
             const query = document.getElementById('posSearch').value.toLowerCase();
@@ -2209,7 +2678,7 @@
             document.getElementById('coUangDiterima').value = posGrandTotal; hitungKembalian();
         }
 
-        function toggleKembalian() { document.getElementById('cashArea').style.display = document.getElementById('coMethod').value === 'Cash' ? 'block' : 'none'; }
+        function toggleKembalian() { const method = String(document.getElementById('coMethod').value || '').toLowerCase(); document.getElementById('cashArea').style.display = method === 'cash' ? 'block' : 'none'; }
         function hitungKembalian() {
             let u = parseInt(document.getElementById('coUangDiterima').value) || 0; let k = u - posGrandTotal;
             document.getElementById('coKembalian').innerText = k >= 0 ? formatRupiah(k) : "Uang Kurang!";
@@ -2217,9 +2686,10 @@
 
         async function submitCheckout() {
             let method = document.getElementById('coMethod').value;
-            let uang = method === 'Cash' ? parseInt(document.getElementById('coUangDiterima').value) || 0 : posGrandTotal;
+            let isCash = String(method || '').toLowerCase() === 'cash';
+            let uang = isCash ? parseInt(document.getElementById('coUangDiterima').value) || 0 : posGrandTotal;
             let change = uang - posGrandTotal;
-            if (method === 'Cash' && change < 0) return alert("Uang pembayaran kurang!");
+            if (isCash && change < 0) return alert("Uang pembayaran kurang!");
 
             document.getElementById('btnSubmitCheckout').innerText = "Memproses...";
             let detail = JSON.stringify(cart.map(c => `${c.name} (${c.qty}${c.unit || 'pcs'})`));
@@ -2240,11 +2710,13 @@
                 id_ongkir: document.getElementById('coOngkir') ? document.getElementById('coOngkir').value : '',
                 kode_kupon: document.getElementById('coKuponCode') ? document.getElementById('coKuponCode').value.trim() : '',
                 pajak_ppn: posPpnVal,
-                biaya_layanan: posServiceVal
+                biaya_layanan: posServiceVal,
+                sumber_order: 'POS'
             };
 
             const res = await apiCall('add_order', payload);
             if (res.success) {
+                posSubtotal = Number(res.subtotal ?? posSubtotal); posOngkirCost = Number(res.ongkir ?? posOngkirCost); posDiskonVal = Number(res.diskon ?? posDiskonVal); posPpnVal = Number(res.pajak_ppn ?? posPpnVal); posServiceVal = Number(res.biaya_layanan ?? posServiceVal); posGrandTotal = Number(res.grand_total ?? posGrandTotal);
                 document.getElementById('strNamaToko').innerText = (currentUser.nama_toko || 'NAMA TOKO').toUpperCase();
                 document.getElementById('strInfoToko').innerText = "Admin: " + currentUser.username + " | WA: " + (currentUser.wa_number || '-');
                 document.getElementById('strOrderId').innerText = res.order_id;

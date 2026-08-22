@@ -117,7 +117,7 @@
 
             <!-- Gambar Cover Artikel -->
             <div id="artCoverContainer" class="mb-10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-slate-100 bg-slate-100 aspect-video relative">
-                <img id="artCover" src="" alt="Cover Artikel" class="w-full h-full object-cover">
+                <img id="artCover" src="" alt="Cover Artikel" loading="lazy" decoding="async" class="w-full h-full object-cover">
             </div>
 
             <!-- Isi Artikel (MENGGUNAKAN TAILWIND TYPOGRAPHY) -->
@@ -138,7 +138,7 @@
 
     <!-- Footer Super Simple -->
     <footer class="max-w-3xl mx-auto px-4 py-8 text-center mt-8">
-        <p class="text-[10px] text-slate-400">Powered by <b>iMersWAstore</b></p>
+        <p class="text-[10px] text-slate-400">Powered by <b>iMersWAStore Bisnis</b></p>
     </footer>
 
     <!-- Notifikasi Toast Berhasil Copy Link -->
@@ -151,7 +151,7 @@
     <!-- ========================================== -->
     <script>
         // SCRIPT URL (Sama persis dengan yang ada di index.html)
-        var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyZYM9hFo84CEaN9fzkAKOISWKgyEk6y0X-jdCzKNURobCb9AJ6pW9cr4fatVXg1i4/exec';
+        var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbway6bycE4ZMZNzjAxK14FWDJ3iFYOucMkof3mWg745-0_a8zKpWxZdw3yg3T6B5g6kbg/exec';
 
         let storeData = {};
         let currentArticle = null;
@@ -174,6 +174,17 @@
 
         async function fetchArticleData(slug) {
             try {
+                // Artikel biasanya dibuka dari index.html. Gunakan snapshot katalog sesi agar tampil instan.
+                try {
+                    const cached = JSON.parse(sessionStorage.getItem('iMersWA_CatalogCache') || 'null');
+                    if (cached && cached.data && cached.data.success && (Date.now() - Number(cached.ts || 0) < 300000)) {
+                        storeData = cached.data.store;
+                        const cachedArticles = cached.data.articles || [];
+                        currentArticle = cachedArticles.find(a => a.slug === slug);
+                        if (currentArticle) { buildArticleUI(); return; }
+                    }
+                } catch(e) {}
+
                 let fd = new FormData();
                 // Kita manfaatkan endpoint yang sama dengan index.html biar praktis
                 fd.append('action', 'get_store_catalog');
@@ -182,6 +193,7 @@
                 const res = await response.json();
 
                 if (res.success) {
+                    try { sessionStorage.setItem('iMersWA_CatalogCache', JSON.stringify({ ts: Date.now(), data: res })); } catch(e) {}
                     storeData = res.store;
                     const articles = res.articles || [];
                     
