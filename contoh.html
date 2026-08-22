@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>iMersWAStore Bisnis - Batch Test A End-to-End Accounting</title>
+<style>
+  :root{--bg:#f6f8fb;--card:#fff;--ink:#172033;--muted:#657089;--line:#e5e9f2;--primary:#0f766e;--primary2:#115e59;--accent:#d97706;--good:#15803d;--warn:#b45309;--bad:#b91c1c;--soft:#ecfdf5;--soft2:#fff7ed;--blue:#eff6ff}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 80px}.hero{background:linear-gradient(135deg,#0f766e,#134e4a);color:#fff;border-radius:24px;padding:30px;box-shadow:0 18px 45px rgba(15,118,110,.18);position:relative;overflow:hidden}
+  .hero:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-90px;top:-100px;background:rgba(255,255,255,.08)}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.9}.hero h1{margin:8px 0 10px;font-size:34px;line-height:1.15}.hero p{margin:0;max-width:780px;color:#dff7f4}.hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.hero-stat{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px}.hero-stat b{display:block;font-size:18px}.hero-stat span{font-size:12px;color:#d5f5f0}
+  .toolbar{position:sticky;top:10px;z-index:20;margin:16px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:rgba(246,248,251,.92);backdrop-filter:blur(10px);padding:10px;border:1px solid var(--line);border-radius:16px}.btn{border:0;border-radius:10px;padding:10px 13px;font-weight:800;cursor:pointer}.btn-primary{background:var(--primary);color:#fff}.btn-light{background:#fff;border:1px solid var(--line);color:var(--ink)}.progress{flex:1;min-width:220px;height:10px;background:#e8edf4;border-radius:999px;overflow:hidden}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#0f766e,#22c55e);transition:.2s}.progress-label{font-size:12px;font-weight:800;color:var(--muted)}
+  .section{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(17,24,39,.04)}.section-head{display:flex;gap:12px;align-items:flex-start;padding:20px 22px;border-bottom:1px solid var(--line);background:#fbfcfe}.num{width:34px;height:34px;border-radius:10px;background:#dff7f4;color:var(--primary2);font-weight:900;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.section h2{font-size:20px;margin:2px 0 2px}.section-sub{font-size:13px;color:var(--muted)}.section-body{padding:22px}
+  .stepcheck{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--muted);white-space:nowrap}.stepcheck input{width:20px;height:20px;accent-color:var(--primary)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0 4px}th,td{border-bottom:1px solid var(--line);padding:10px 11px;text-align:left;vertical-align:top}th{background:#f8fafc;color:#475569;font-size:11px;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}.right{text-align:right}.strong{font-weight:900}.money{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}.good{color:var(--good)}.bad{color:var(--bad)}
+  .callout{border-radius:14px;padding:14px 16px;margin:12px 0;background:var(--soft);border:1px solid #bbf7d0}.callout.orange{background:var(--soft2);border-color:#fed7aa}.callout.blue{background:var(--blue);border-color:#bfdbfe}.callout b{display:block;margin-bottom:3px}.checkpoint{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.cp{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}.cp span{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:800}.cp b{display:block;font-size:20px;margin-top:3px}.journal{position:relative;background:#0f172a;color:#e2e8f0;border-radius:14px;padding:16px 52px 16px 16px;font:13px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;margin:12px 0}.copy{position:absolute;right:10px;top:10px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;border-radius:8px;padding:6px 8px;font-size:11px;cursor:pointer}.mini{font-size:12px;color:var(--muted)}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.check{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;font-size:13px}.check input{width:18px;height:18px;accent-color:var(--primary)}
+  .final{background:linear-gradient(180deg,#f0fdfa,#fff);border-color:#99f6e4}.final-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.final-card{padding:17px;border-radius:16px;background:#fff;border:1px solid #ccfbf1}.final-card span{font-size:11px;text-transform:uppercase;font-weight:900;color:#0f766e}.final-card b{display:block;font-size:24px;margin-top:4px}.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px}
+  @media(max-width:760px){.hero h1{font-size:27px}.hero-grid,.checkpoint,.final-grid{grid-template-columns:1fr}.checklist{grid-template-columns:1fr}.section-head{padding:16px}.section-body{padding:16px}.stepcheck{margin-left:0}.toolbar{top:4px}table{font-size:12px;display:block;overflow:auto}.hero{padding:24px 20px}}
+  @media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero{border-radius:0;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}.toolbar,.copy{display:none!important}.section{box-shadow:none;break-inside:avoid-page}.section-head{break-after:avoid}.journal,.callout,.cp,.final-card{break-inside:avoid}.stepcheck input,.check input{appearance:none;width:14px;height:14px;border:1px solid #64748b;border-radius:3px}.footer{margin-bottom:0}@page{size:A4;margin:12mm}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">iMersWAStore Bisnis • QA Accounting</div>
+    <h1>Batch Test A — End-to-End Accounting</h1>
+    <p>Target: transaksi harus cocok sampai stok, HPP, jurnal, Laba Rugi, Nilai Persediaan, dan Neraca Saldo. Untuk batch pertama ini, matikan PPN dan service charge. Transaksi online tetap menguji ongkir + kupon.</p>
+    <div class="hero-grid">
+      <div class="hero-stat"><b>Rp161.200</b><span>Target Laba Bersih</span></div>
+      <div class="hero-stat"><b>Rp8.152.200</b><span>Target Persediaan Akhir</span></div>
+      <div class="hero-stat"><b>Rp20.968.000</b><span>Target Debit = Kredit</span></div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="window.print()">Cetak / Save PDF</button>
+    <button class="btn btn-light" onclick="resetChecks()">Reset Checklist</button>
+    <div class="progress"><div id="progressBar"></div></div><span class="progress-label" id="progressLabel">0% selesai</span>
+  </div>
+
+  <section class="section" id="s1"><div class="section-head"><div class="num">1</div><div><h2>Master Produk Test</h2><div class="section-sub">Buat 9 produk dengan stok awal 0. HPP = 60% dari harga jual.</div></div><label class="stepcheck"><input type="checkbox" data-check="s1"> Selesai</label></div><div class="section-body">
+    <table><thead><tr><th>Produk</th><th class="right">Harga Jual</th><th class="right">HPP 60%</th><th class="right">Stok Awal</th></tr></thead><tbody>
+      <tr><td>Sneakers iMers</td><td class="right money">Rp249.000</td><td class="right money">Rp149.400</td><td class="right">0</td></tr>
+      <tr><td>iMersCoffee</td><td class="right money">Rp99.000</td><td class="right money">Rp59.400</td><td class="right">0</td></tr>
+      <tr><td>iMersCrunch Chips</td><td class="right money">Rp29.000</td><td class="right money">Rp17.400</td><td class="right">0</td></tr>
+      <tr><td>iMersEnergy Drink</td><td class="right money">Rp9.000</td><td class="right money">Rp5.400</td><td class="right">0</td></tr>
+      <tr><td>iMersGlow Serum</td><td class="right money">Rp139.000</td><td class="right money">Rp83.400</td><td class="right">0</td></tr>
+      <tr><td>iMersHerbal Plus</td><td class="right money">Rp77.000</td><td class="right money">Rp46.200</td><td class="right">0</td></tr>
+      <tr><td>iMersOil</td><td class="right money">Rp65.000</td><td class="right money">Rp39.000</td><td class="right">0</td></tr>
+      <tr><td>iMersSoap</td><td class="right money">Rp13.000</td><td class="right money">Rp7.800</td><td class="right">0</td></tr>
+      <tr><td>iMersPetFood</td><td class="right money">Rp47.000</td><td class="right money">Rp28.200</td><td class="right">0</td></tr>
+    </tbody></table>
+  </div></section>
+
+  <section class="section" id="s2"><div class="section-head"><div class="num">2</div><div><h2>Posting Modal Awal</h2><div class="section-sub">Posting melalui Keuangan → Jurnal Manual.</div></div><label class="stepcheck"><input type="checkbox" data-check="s2"> Selesai</label></div><div class="section-body">
+    <table><thead><tr><th>Akun</th><th class="right">Debit</th><th class="right">Kredit</th></tr></thead><tbody>
+      <tr><td>Kas</td><td class="right money">Rp5.000.000</td><td></td></tr><tr><td>Bank</td><td class="right money">Rp15.000.000</td><td></td></tr><tr><td>Modal Pemilik</td><td></td><td class="right money">Rp20.000.000</td></tr>
+      <tr><td class="strong">TOTAL</td><td class="right money strong">Rp20.000.000</td><td class="right money strong">Rp20.000.000</td></tr>
+    </tbody></table>
+    <div class="journal">Dr Kas                 5.000.000
+Dr Bank               15.000.000
+    Cr Modal Pemilik            20.000.000<button class="copy" onclick="copyJournal(this)">Copy</button></div>
+    <div class="callout blue"><b>Catatan</b>Belum ada persediaan pada tahap ini. Persediaan akan tercipta dari Stock In.</div>
+  </div></section>
+
+  <section class="section" id="s3"><div class="section-head"><div class="num">3</div><div><h2>Stock In — 20 Unit per Produk</h2><div class="section-sub">Inventory → Stok Masuk. Masukkan qty dan HPP/unit sesuai tabel.</div></div><label class="stepcheck"><input type="checkbox" data-check="s3"> Selesai</label></div><div class="section-body">
+    <table><thead><tr><th>Produk</th><th class="right">Qty</th><th class="right">HPP/unit</th><th class="right">Total</th><th>Bayar Dari</th></tr></thead><tbody>
+      <tr><td>Sneakers iMers</td><td class="right">20</td><td class="right money">Rp149.400</td><td class="right money">Rp2.988.000</td><td>Kas</td></tr>
+      <tr><td>iMersCoffee</td><td class="right">20</td><td class="right money">Rp59.400</td><td class="right money">Rp1.188.000</td><td>Kas</td></tr>
+      <tr><td>iMersCrunch Chips</td><td class="right">20</td><td class="right money">Rp17.400</td><td class="right money">Rp348.000</td><td>Kas</td></tr>
+      <tr><td>iMersEnergy Drink</td><td class="right">20</td><td class="right money">Rp5.400</td><td class="right money">Rp108.000</td><td>Kas</td></tr>
+      <tr><td>iMersGlow Serum</td><td class="right">20</td><td class="right money">Rp83.400</td><td class="right money">Rp1.668.000</td><td>Bank</td></tr>
+      <tr><td>iMersHerbal Plus</td><td class="right">20</td><td class="right money">Rp46.200</td><td class="right money">Rp924.000</td><td>Bank</td></tr>
+      <tr><td>iMersOil</td><td class="right">20</td><td class="right money">Rp39.000</td><td class="right money">Rp780.000</td><td>Bank</td></tr>
+      <tr><td>iMersSoap</td><td class="right">20</td><td class="right money">Rp7.800</td><td class="right money">Rp156.000</td><td>Bank</td></tr>
+      <tr><td>iMersPetFood</td><td class="right">20</td><td class="right money">Rp28.200</td><td class="right money">Rp564.000</td><td>Bank</td></tr>
+      <tr><td class="strong">TOTAL</td><td></td><td></td><td class="right money strong">Rp8.724.000</td><td></td></tr>
+    </tbody></table>
+    <div class="checkpoint"><div class="cp"><span>Dibayar Kas</span><b>Rp4.632.000</b></div><div class="cp"><span>Dibayar Bank</span><b>Rp4.092.000</b></div><div class="cp"><span>Persediaan Masuk</span><b>Rp8.724.000</b></div></div>
+    <div class="callout"><b>Checkpoint #1 — Sebelum Penjualan</b>Kas Rp368.000 • Bank Rp10.908.000 • Persediaan Rp8.724.000 • Total Aset Rp20.000.000</div>
+  </div></section>
+
+  <section class="section" id="s4"><div class="section-head"><div class="num">4</div><div><h2>Ongkir & Kupon Test</h2><div class="section-sub">Digunakan khusus transaksi online #3.</div></div><label class="stepcheck"><input type="checkbox" data-check="s4"> Selesai</label></div><div class="section-body">
+    <div class="checkpoint"><div class="cp"><span>Ongkir</span><b>TEST ONGKIR</b><div class="mini">Rp15.000</div></div><div class="cp"><span>Kode Kupon</span><b>TEST10K</b><div class="mini">Diskon nominal Rp10.000</div></div><div class="cp"><span>PPN & Service</span><b>OFF</b><div class="mini">Untuk Batch Test A</div></div></div>
+  </div></section>
+
+  <section class="section" id="s5"><div class="section-head"><div class="num">5</div><div><h2>Transaksi #1 — POS / Kas</h2><div class="section-sub">Target total penjualan Rp534.000 dan HPP Rp320.400.</div></div><label class="stepcheck"><input type="checkbox" data-check="s5"> Selesai</label></div><div class="section-body">
+    <table><thead><tr><th>Produk</th><th class="right">Qty</th><th class="right">Harga</th><th class="right">Subtotal</th></tr></thead><tbody><tr><td>Sneakers iMers</td><td class="right">1</td><td class="right money">Rp249.000</td><td class="right money">Rp249.000</td></tr><tr><td>iMersCoffee</td><td class="right">2</td><td class="right money">Rp99.000</td><td class="right money">Rp198.000</td></tr><tr><td>iMersCrunch Chips</td><td class="right">3</td><td class="right money">Rp29.000</td><td class="right money">Rp87.000</td></tr><tr><td class="strong">TOTAL</td><td></td><td></td><td class="right money strong">Rp534.000</td></tr></tbody></table>
+    <div class="callout orange"><b>Pembayaran</b>Kas</div>
+    <table><thead><tr><th>HPP</th><th>Perhitungan</th><th class="right">Nilai</th></tr></thead><tbody><tr><td>Sneakers</td><td>1 × Rp149.400</td><td class="right money">Rp149.400</td></tr><tr><td>Coffee</td><td>2 × Rp59.400</td><td class="right money">Rp118.800</td></tr><tr><td>Chips</td><td>3 × Rp17.400</td><td class="right money">Rp52.200</td></tr><tr><td class="strong">Total HPP</td><td></td><td class="right money strong">Rp320.400</td></tr></tbody></table>
+    <div class="journal">Dr Kas                    534.000
+    Cr Penjualan                 534.000
+
+Dr HPP                    320.400
+    Cr Persediaan                320.400<button class="copy" onclick="copyJournal(this)">Copy</button></div>
+  </div></section>
+
+  <section class="section" id="s6"><div class="section-head"><div class="num">6</div><div><h2>Transaksi #2 — POS / QRIS</h2><div class="section-sub">Target total penjualan Rp183.000 dan HPP Rp109.800.</div></div><label class="stepcheck"><input type="checkbox" data-check="s6"> Selesai</label></div><div class="section-body">
+    <table><thead><tr><th>Produk</th><th class="right">Qty</th><th class="right">Subtotal</th></tr></thead><tbody><tr><td>iMersEnergy Drink</td><td class="right">2</td><td class="right money">Rp18.000</td></tr><tr><td>iMersGlow Serum</td><td class="right">1</td><td class="right money">Rp139.000</td></tr><tr><td>iMersSoap</td><td class="right">2</td><td class="right money">Rp26.000</td></tr><tr><td class="strong">TOTAL</td><td></td><td class="right money strong">Rp183.000</td></tr></tbody></table>
+    <div class="callout orange"><b>Pembayaran</b>QRIS</div>
+    <div class="journal">Energy = 2 × 5.400   = 10.800
+Serum  = 1 × 83.400  = 83.400
+Soap   = 2 × 7.800   = 15.600
+------------------------------
+TOTAL HPP              = 109.800<button class="copy" onclick="copyJournal(this)">Copy</button></div>
+    <div class="journal">Dr QRIS                   183.000
+    Cr Penjualan                 183.000
+
+Dr HPP                    109.800
+    Cr Persediaan                109.800<button class="copy" onclick="copyJournal(this)">Copy</button></div>
+  </div></section>
+
+  <section class="section" id="s7"><div class="section-head"><div class="num">7</div><div><h2>Transaksi #3 — Checkout Toko Online</h2><div class="section-sub">Gunakan buyer.test01@example.com • Status awal BARU • Selesaikan dari admin.</div></div><label class="stepcheck"><input type="checkbox" data-check="s7"> Selesai</label></div><div class="section-body">
+    <table><thead><tr><th>Produk</th><th class="right">Qty</th><th class="right">Subtotal</th></tr></thead><tbody><tr><td>iMersHerbal Plus</td><td class="right">1</td><td class="right money">Rp77.000</td></tr><tr><td>iMersOil</td><td class="right">1</td><td class="right money">Rp65.000</td></tr><tr><td>iMersPetFood</td><td class="right">2</td><td class="right money">Rp94.000</td></tr><tr><td class="strong">Subtotal Produk</td><td></td><td class="right money strong">Rp236.000</td></tr></tbody></table>
+    <table><tbody><tr><td>Subtotal</td><td class="right money">Rp236.000</td></tr><tr><td>TEST ONGKIR</td><td class="right money">Rp15.000</td></tr><tr><td>Kupon TEST10K</td><td class="right money bad">-Rp10.000</td></tr><tr><td class="strong">TOTAL BAYAR</td><td class="right money strong">Rp241.000</td></tr></tbody></table>
+    <div class="callout blue"><b>Flow yang wajib dicek</b>1) Checkout → order berstatus <strong>BARU</strong>. 2) Stok menjadi reserved. 3) Belum ada jurnal penjualan/HPP. 4) Admin ubah ke <strong>SELESAI</strong>. 5) Baru stok keluar dan jurnal diposting.</div>
+    <div class="journal">Dr Bank                    241.000
+Dr Diskon Penjualan          10.000
+    Cr Penjualan                 236.000
+    Cr Pendapatan Ongkir          15.000
+
+Dr HPP                    141.600
+    Cr Persediaan                141.600<button class="copy" onclick="copyJournal(this)">Copy</button></div>
+    <div class="journal">Herbal     46.200
+Oil        39.000
+PetFood    56.400
+----------------
+Total     141.600<button class="copy" onclick="copyJournal(this)">Copy</button></div>
+  </div></section>
+
+  <section class="section" id="s8"><div class="section-head"><div class="num">8</div><div><h2>Masukkan 3 Pengeluaran</h2><div class="section-sub">Keuangan → Pengeluaran → langsung Posted.</div></div><label class="stepcheck"><input type="checkbox" data-check="s8"> Selesai</label></div><div class="section-body">
+    <table><thead><tr><th>Pengeluaran</th><th>Bayar Dari</th><th class="right">Nilai</th></tr></thead><tbody><tr><td>Biaya Iklan</td><td>Bank</td><td class="right money">Rp100.000</td></tr><tr><td>Biaya Listrik</td><td>Kas</td><td class="right money">Rp50.000</td></tr><tr><td>Biaya Internet</td><td>Bank</td><td class="right money">Rp75.000</td></tr><tr><td class="strong">TOTAL</td><td></td><td class="right money strong">Rp225.000</td></tr></tbody></table>
+    <div class="journal">Dr Biaya Iklan          100.000
+    Cr Bank                     100.000
+
+Dr Biaya Listrik         50.000
+    Cr Kas                       50.000
+
+Dr Biaya Internet        75.000
+    Cr Bank                      75.000<button class="copy" onclick="copyJournal(this)">Copy</button></div>
+  </div></section>
+
+  <section class="section" id="s9"><div class="section-head"><div class="num">9</div><div><h2>Checkpoint Stok Akhir</h2><div class="section-sub">Cocokkan stok fisik setelah semua penjualan selesai.</div></div><label class="stepcheck"><input type="checkbox" data-check="s9"> Cocok</label></div><div class="section-body">
+    <table><thead><tr><th>Produk</th><th class="right">Awal</th><th class="right">Terjual</th><th class="right">Akhir</th></tr></thead><tbody><tr><td>Sneakers</td><td class="right">20</td><td class="right">1</td><td class="right strong">19</td></tr><tr><td>Coffee</td><td class="right">20</td><td class="right">2</td><td class="right strong">18</td></tr><tr><td>Chips</td><td class="right">20</td><td class="right">3</td><td class="right strong">17</td></tr><tr><td>Energy Drink</td><td class="right">20</td><td class="right">2</td><td class="right strong">18</td></tr><tr><td>Glow Serum</td><td class="right">20</td><td class="right">1</td><td class="right strong">19</td></tr><tr><td>Herbal Plus</td><td class="right">20</td><td class="right">1</td><td class="right strong">19</td></tr><tr><td>Oil</td><td class="right">20</td><td class="right">1</td><td class="right strong">19</td></tr><tr><td>Soap</td><td class="right">20</td><td class="right">2</td><td class="right strong">18</td></tr><tr><td>PetFood</td><td class="right">20</td><td class="right">2</td><td class="right strong">18</td></tr></tbody></table>
+    <div class="checkpoint"><div class="cp"><span>Total HPP Terjual</span><b>Rp571.800</b></div><div class="cp"><span>Persediaan Awal</span><b>Rp8.724.000</b></div><div class="cp"><span>Persediaan Akhir</span><b>Rp8.152.200</b></div></div>
+  </div></section>
+
+  <section class="section" id="s10"><div class="section-head"><div class="num">10</div><div><h2>Checkpoint Laba Rugi</h2><div class="section-sub">Target akhir Laba Bersih = Rp161.200.</div></div><label class="stepcheck"><input type="checkbox" data-check="s10"> Cocok</label></div><div class="section-body">
+    <table><thead><tr><th>Pendapatan</th><th class="right">Nilai</th></tr></thead><tbody><tr><td>Penjualan Produk</td><td class="right money">Rp953.000</td></tr><tr><td>Pendapatan Ongkir</td><td class="right money">Rp15.000</td></tr><tr><td>Diskon Penjualan</td><td class="right money bad">(Rp10.000)</td></tr><tr><td class="strong">Pendapatan Bersih</td><td class="right money strong">Rp958.000</td></tr></tbody></table>
+    <table><tbody><tr><td>HPP Penjualan</td><td class="right money">Rp571.800</td></tr><tr><td class="strong">Laba Kotor</td><td class="right money strong">Rp386.200</td></tr></tbody></table>
+    <table><tbody><tr><td>Biaya Iklan</td><td class="right money">Rp100.000</td></tr><tr><td>Biaya Listrik</td><td class="right money">Rp50.000</td></tr><tr><td>Biaya Internet</td><td class="right money">Rp75.000</td></tr><tr><td class="strong">Total Beban</td><td class="right money strong">Rp225.000</td></tr></tbody></table>
+    <div class="callout"><b>Expected Laba Bersih</b><span style="font-size:26px;font-weight:900;color:#15803d">Rp161.200</span></div>
+  </div></section>
+
+  <section class="section" id="s11"><div class="section-head"><div class="num">11</div><div><h2>Checkpoint Saldo Aset Akhir</h2><div class="section-sub">Total aset harus sama dengan Modal Awal + Laba Bersih.</div></div><label class="stepcheck"><input type="checkbox" data-check="s11"> Cocok</label></div><div class="section-body">
+    <table><thead><tr><th>Aset</th><th class="right">Saldo Akhir</th></tr></thead><tbody><tr><td>Kas</td><td class="right money">Rp852.000</td></tr><tr><td>Bank</td><td class="right money">Rp10.974.000</td></tr><tr><td>QRIS</td><td class="right money">Rp183.000</td></tr><tr><td>Persediaan</td><td class="right money">Rp8.152.200</td></tr><tr><td class="strong">TOTAL</td><td class="right money strong">Rp20.161.200</td></tr></tbody></table>
+    <div class="callout blue"><b>Rekonsiliasi</b>Modal Awal Rp20.000.000 + Laba Bersih Rp161.200 = <strong>Rp20.161.200</strong></div>
+  </div></section>
+
+  <section class="section final" id="s12"><div class="section-head"><div class="num">12</div><div><h2>Neraca Saldo Final</h2><div class="section-sub">Checkpoint paling penting: Debit harus sama dengan Kredit.</div></div><label class="stepcheck"><input type="checkbox" data-check="s12"> BALANCE</label></div><div class="section-body">
+    <table><thead><tr><th>Akun</th><th class="right">Debit</th><th class="right">Kredit</th></tr></thead><tbody>
+      <tr><td>Kas</td><td class="right money">Rp852.000</td><td></td></tr><tr><td>Bank</td><td class="right money">Rp10.974.000</td><td></td></tr><tr><td>QRIS</td><td class="right money">Rp183.000</td><td></td></tr><tr><td>Persediaan</td><td class="right money">Rp8.152.200</td><td></td></tr><tr><td>Modal Pemilik</td><td></td><td class="right money">Rp20.000.000</td></tr><tr><td>Penjualan Produk</td><td></td><td class="right money">Rp953.000</td></tr><tr><td>Pendapatan Ongkir</td><td></td><td class="right money">Rp15.000</td></tr><tr><td>Diskon Penjualan</td><td class="right money">Rp10.000</td><td></td></tr><tr><td>HPP Penjualan</td><td class="right money">Rp571.800</td><td></td></tr><tr><td>Biaya Iklan</td><td class="right money">Rp100.000</td><td></td></tr><tr><td>Biaya Listrik</td><td class="right money">Rp50.000</td><td></td></tr><tr><td>Biaya Internet</td><td class="right money">Rp75.000</td><td></td></tr><tr><td class="strong">TOTAL</td><td class="right money strong">Rp20.968.000</td><td class="right money strong">Rp20.968.000</td></tr>
+    </tbody></table>
+    <div class="final-grid"><div class="final-card"><span>Debit</span><b>Rp20.968.000</b></div><div class="final-card"><span>Kredit</span><b>Rp20.968.000</b></div><div class="final-card"><span>Status Target</span><b class="good">BALANCE</b></div></div>
+    <div class="callout"><b>Batch Test A dinyatakan lolos jika:</b>Neraca Saldo balance Rp20.968.000 = Rp20.968.000, Laba Bersih Rp161.200, dan Nilai Persediaan Rp8.152.200.</div>
+  </div></section>
+
+  <section class="section"><div class="section-head"><div class="num">✓</div><div><h2>Checklist Cepat Saat Testing</h2><div class="section-sub">Bisa dicentang satu per satu. Status tersimpan otomatis di browser.</div></div></div><div class="section-body">
+    <div class="checklist">
+      <label class="check"><input type="checkbox" data-check="x1"> PPN OFF</label><label class="check"><input type="checkbox" data-check="x2"> Service Charge OFF</label><label class="check"><input type="checkbox" data-check="x3"> Modal awal posted</label><label class="check"><input type="checkbox" data-check="x4"> Semua Stock In posted</label><label class="check"><input type="checkbox" data-check="x5"> POS Kas selesai</label><label class="check"><input type="checkbox" data-check="x6"> POS QRIS selesai</label><label class="check"><input type="checkbox" data-check="x7"> Online BARU → reserved</label><label class="check"><input type="checkbox" data-check="x8"> Online SELESAI → jurnal posted</label><label class="check"><input type="checkbox" data-check="x9"> 3 pengeluaran posted</label><label class="check"><input type="checkbox" data-check="x10"> Stok akhir cocok</label><label class="check"><input type="checkbox" data-check="x11"> Laba Rugi cocok</label><label class="check"><input type="checkbox" data-check="x12"> Neraca Saldo balance</label>
+    </div>
+  </div></section>
+
+  <div class="footer">iMersWAStore Bisnis • Batch Test A • End-to-End Accounting QA</div>
+</div>
+<script>
+const KEY='imers_batch_test_a_checks_v1';
+function loadChecks(){let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){};document.querySelectorAll('[data-check]').forEach(el=>{el.checked=!!saved[el.dataset.check];el.addEventListener('change',saveChecks)});updateProgress()}
+function saveChecks(){const out={};document.querySelectorAll('[data-check]').forEach(el=>out[el.dataset.check]=el.checked);localStorage.setItem(KEY,JSON.stringify(out));updateProgress()}
+function updateProgress(){const els=[...document.querySelectorAll('[data-check]')],done=els.filter(x=>x.checked).length,p=els.length?Math.round(done/els.length*100):0;document.getElementById('progressBar').style.width=p+'%';document.getElementById('progressLabel').textContent=p+'% selesai ('+done+'/'+els.length+')'}
+function resetChecks(){if(!confirm('Reset semua checklist Batch Test A?'))return;localStorage.removeItem(KEY);document.querySelectorAll('[data-check]').forEach(el=>el.checked=false);updateProgress()}
+function copyJournal(btn){const box=btn.parentElement;const clone=box.cloneNode(true);clone.querySelector('.copy')?.remove();navigator.clipboard.writeText(clone.innerText.trim()).then(()=>{const old=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=old,1200)})}
+document.addEventListener('DOMContentLoaded',loadChecks);
+</script>
+</body>
+</html>
